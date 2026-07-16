@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hostel Notices & Services | HMS</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            <h2>HMS</h2>
+
+            <p>Hostel Management</p>
+
+        </div>
+
+
+        <ul class="menu">
+
+            <li>
+                <a href="dashboard.html">📊 Dashboard</a>
+            </li>
+
+            <li>
+                <a href="rooms.html">🛏️ Room Allocation</a>
+            </li>
+
+            <li>
+                <a href="students.html">👨‍🎓 Student Registration</a>
+            </li>
+
+            <li>
+                <a href="fees.html">💰 Fee Payment</a>
+            </li>
+
+            <li>
+                <a href="complaints.html">📢 Complaints</a>
+            </li>
+
+            <li class="active">
+                <a href="notices.html">🔔 Notices & Services</a>
+            </li>
+
+        </ul>
+
+
+        <div class="logout">
+
+            <a href="../index.html">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+
+    <div class="main-content">
+
+
+        <!-- Top Bar -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Hostel Notices & Services</h1>
+
+                <p>
+                    Share important hostel updates and services
+                </p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+
+                <div>
+
+                    <strong>Admin</strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Summary Cards -->
+
+        <div class="dashboard-cards">
+
+
+            <div class="card">
+
+                <div class="card-icon blue">
+                    🔔
+                </div>
+
+
+                <div>
+
+                    <h3>12</h3>
+
+                    <p>Total Notices</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon red">
+                    ⚠️
+                </div>
+
+
+                <div>
+
+                    <h3>3</h3>
+
+                    <p>Important Notices</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon orange">
+                    🛠️
+                </div>
+
+
+                <div>
+
+                    <h3>4</h3>
+
+                    <p>Maintenance Updates</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon green">
+                    🧺
+                </div>
+
+
+                <div>
+
+                    <h3>5</h3>
+
+                    <p>Services Available</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Notices Section -->
+
+        <div class="section-box notices-section">
+
+
+            <div class="section-header">
+
+                <h2>Hostel Updates</h2>
+
+
+                <button onclick="openNoticeForm()">
+
+                    ➕ Create Notice
+
+                </button>
+
+            </div>
+
+
+            <!-- Notice Filters -->
+
+            <div class="notice-tools">
+
+                <input
+                    type="text"
+                    placeholder="🔍 Search notices"
+                >
+
+
+                <select>
+
+                    <option>
+                        All Categories
+                    </option>
+
+                    <option>
+                        Maintenance
+                    </option>
+
+                    <option>
+                        Services
+                    </option>
+
+                    <option>
+                        Hostel Rules
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Notice Cards -->
+
+            <div class="notice-list">
+
+
+                <!-- Maintenance Notice -->
+
+                <div class="notice-card important-notice">
+
+
+                    <div class="notice-header">
+
+                        <div>
+
+                            <span class="notice-category maintenance">
+
+                                🛠️ Maintenance
+
+                            </span>
+
+
+                            <h3>
+                                Electrical Maintenance Work
+                            </h3>
+
+                        </div>
+
+
+                        <span class="priority-high">
+
+                            High Priority
+
+                        </span>
+
+                    </div>
+
+
+                    <p class="notice-description">
+
+                        Electrical adjustment and maintenance work
+                        will be carried out tomorrow from 10:00 AM
+                        to 1:00 PM. Students may experience temporary
+                        power interruptions.
+
+                    </p>
+
+
+                    <div class="notice-footer">
+
+                        <span>
+                            📅 16 Jul 2026
+                        </span>
+
+
+                        <span>
+                            👤 Admin
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Laundry Notice -->
+
+                <div class="notice-card">
+
+
+                    <div class="notice-header">
+
+                        <div>
+
+                            <span class="notice-category services">
+
+                                🧺 Services
+
+                            </span>
+
+
+                            <h3>
+                                Laundry Service Available
+                            </h3>
+
+                        </div>
+
+
+                        <span class="priority-normal">
+
+                            Normal
+
+                        </span>
+
+                    </div>
+
+
+                    <p class="notice-description">
+
+                        Laundry service will be available today
+                        from 9:00 AM to 5:00 PM. Students can
+                        submit their clothes at the laundry area.
+
+                    </p>
+
+
+                    <div class="notice-footer">
+
+                        <span>
+                            📅 15 Jul 2026
+                        </span>
+
+
+                        <span>
+                            👤 Admin
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Rules Notice -->
+
+                <div class="notice-card">
+
+
+                    <div class="notice-header">
+
+                        <div>
+
+                            <span class="notice-category rules">
+
+                                📢 Hostel Rules
+
+                            </span>
+
+
+                            <h3>
+                                Important Visitor Policy
+                            </h3>
+
+                        </div>
+
+
+                        <span class="priority-high">
+
+                            Important
+
+                        </span>
+
+                    </div>
+
+
+                    <p class="notice-description">
+
+                        Students are not allowed to bring visitors
+                        after 8:00 PM. Visitors must follow the
+                        hostel visitor policy and designated visitor
+                        guidelines.
+
+                    </p>
+
+
+                    <div class="notice-footer">
+
+                        <span>
+                            📅 14 Jul 2026
+                        </span>
+
+
+                        <span>
+                            👤 Admin
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Plumbing Notice -->
+
+                <div class="notice-card">
+
+
+                    <div class="notice-header">
+
+                        <div>
+
+                            <span class="notice-category maintenance">
+
+                                🚿 Maintenance
+
+                            </span>
+
+
+                            <h3>
+                                Plumbing Maintenance Update
+                            </h3>
+
+                        </div>
+
+
+                        <span class="priority-normal">
+
+                            Normal
+
+                        </span>
+
+                    </div>
+
+
+                    <p class="notice-description">
+
+                        Plumbing maintenance will be carried out
+                        in Block A. Students are requested to use
+                        the alternative water facility during the work.
+
+                    </p>
+
+
+                    <div class="notice-footer">
+
+                        <span>
+                            📅 13 Jul 2026
+                        </span>
+
+
+                        <span>
+                            👤 Admin
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Create Notice Modal -->
+
+    <div class="modal" id="noticeModal">
+
+
+        <div class="modal-content">
+
+
+            <span
+                class="close"
+                onclick="closeNoticeForm()"
+            >
+
+                &times;
+
+            </span>
+
+
+            <h2>
+                Create Hostel Notice
+            </h2>
+
+
+            <form id="noticeForm">
+
+
+                <label>
+                    Notice Title
+                </label>
+
+
+                <input
+                    type="text"
+                    placeholder="Enter notice title"
+                    required
+                >
+
+
+                <label>
+                    Category
+                </label>
+
+
+                <select required>
+
+                    <option value="">
+                        Select category
+                    </option>
+
+                    <option>
+                        Maintenance
+                    </option>
+
+                    <option>
+                        Services
+                    </option>
+
+                    <option>
+                        Hostel Rules
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Priority
+                </label>
+
+
+                <select required>
+
+                    <option>
+                        Normal
+                    </option>
+
+                    <option>
+                        Important
+                    </option>
+
+                    <option>
+                        High Priority
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Notice Description
+                </label>
+
+
+                <textarea
+                    rows="5"
+                    placeholder="Write your notice here"
+                    required
+                ></textarea>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+
+                    Publish Notice
+
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

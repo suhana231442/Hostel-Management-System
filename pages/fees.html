@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fee Payment | Hostel Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            <h2>HMS</h2>
+            <p>Hostel Management</p>
+        </div>
+
+
+        <ul class="menu">
+
+            <li>
+                <a href="dashboard.html">📊 Dashboard</a>
+            </li>
+
+            <li>
+                <a href="rooms.html">🛏️ Room Allocation</a>
+            </li>
+
+            <li>
+                <a href="students.html">👨‍🎓 Student Registration</a>
+            </li>
+
+            <li class="active">
+                <a href="fees.html">💰 Fee Payment</a>
+            </li>
+
+            <li>
+                <a href="complaints.html">📢 Complaints</a>
+            </li>
+
+            <li>
+                 <a href="notices.html">🔔 Notices & Services</a>
+            </li>
+
+           
+
+        </ul>
+
+
+        <div class="logout">
+            <a href="../index.html">🚪 Logout</a>
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+
+    <div class="main-content">
+
+        <!-- Top Bar -->
+
+        <div class="topbar">
+
+            <div>
+                <h1>Fee Payment</h1>
+
+                <p>
+                    Manage student hostel fee payments
+                </p>
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+                <div>
+                    <strong>Admin</strong>
+
+                    <small>
+                        Administrator
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Fee Summary -->
+
+        <div class="dashboard-cards">
+
+            <div class="card">
+
+                <div class="card-icon blue">
+                    💰
+                </div>
+
+                <div>
+                    <h3>Rs. 2.5M</h3>
+                    <p>Total Fees</p>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon green">
+                    ✅
+                </div>
+
+                <div>
+                    <h3>Rs. 2.1M</h3>
+                    <p>Paid Fees</p>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon orange">
+                    ⏳
+                </div>
+
+                <div>
+                    <h3>Rs. 400K</h3>
+                    <p>Pending Fees</p>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon red">
+                    ⚠️
+                </div>
+
+                <div>
+                    <h3>15</h3>
+                    <p>Pending Students</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Payment Records -->
+
+        <div class="section-box payment-section">
+
+            <div class="section-header">
+
+                <h2>Payment Records</h2>
+
+                <button onclick="openPaymentForm()">
+                    ➕ Add Payment
+                </button>
+
+            </div>
+
+
+            <!-- Search -->
+
+            <div class="payment-tools">
+
+                <input
+                    type="text"
+                    placeholder="🔍 Search student or payment ID"
+                >
+
+                <select>
+
+                    <option>
+                        All Status
+                    </option>
+
+                    <option>
+                        Paid
+                    </option>
+
+                    <option>
+                        Pending
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Payment Table -->
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Payment ID</th>
+                            <th>Student Name</th>
+                            <th>Fee Type</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>#PAY001</td>
+
+                            <td>
+                                Rahul Sharma
+                            </td>
+
+                            <td>
+                                Hostel Fee
+                            </td>
+
+                            <td>
+                                Rs. 25,000
+                            </td>
+
+                            <td>
+                                15 Jul 2026
+                            </td>
+
+                            <td>
+                                <span class="paid-status">
+                                    Paid
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>#PAY002</td>
+
+                            <td>
+                                Sita Thapa
+                            </td>
+
+                            <td>
+                                Hostel Fee
+                            </td>
+
+                            <td>
+                                Rs. 25,000
+                            </td>
+
+                            <td>
+                                —
+                            </td>
+
+                            <td>
+                                <span class="pending-status">
+                                    Pending
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>#PAY003</td>
+
+                            <td>
+                                Anish Karki
+                            </td>
+
+                            <td>
+                                Maintenance Fee
+                            </td>
+
+                            <td>
+                                Rs. 5,000
+                            </td>
+
+                            <td>
+                                12 Jul 2026
+                            </td>
+
+                            <td>
+                                <span class="paid-status">
+                                    Paid
+                                </span>
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Add Payment Modal -->
+
+    <div class="modal" id="paymentModal">
+
+        <div class="modal-content">
+
+            <span
+                class="close"
+                onclick="closePaymentForm()"
+            >
+                &times;
+            </span>
+
+
+            <h2>
+                Add Fee Payment
+            </h2>
+
+
+            <form id="paymentForm">
+
+                <label>
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    placeholder="Enter student name"
+                    required
+                >
+
+
+                <label>
+                    Student ID
+                </label>
+
+                <input
+                    type="text"
+                    placeholder="Enter student ID"
+                    required
+                >
+
+
+                <label>
+                    Fee Type
+                </label>
+
+                <select required>
+
+                    <option value="">
+                        Select fee type
+                    </option>
+
+                    <option>
+                        Hostel Fee
+                    </option>
+
+                    <option>
+                        Maintenance Fee
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Amount
+                </label>
+
+                <input
+                    type="number"
+                    placeholder="Enter amount"
+                    required
+                >
+
+
+                <label>
+                    Payment Date
+                </label>
+
+                <input
+                    type="date"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Save Payment
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

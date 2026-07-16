@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Management | Hostel Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            <h2>HMS</h2>
+
+            <p>Hostel Management</p>
+
+        </div>
+
+
+        <ul class="menu">
+
+            <li>
+                <a href="dashboard.html">📊 Dashboard</a>
+            </li>
+
+            <li>
+                <a href="rooms.html">🛏️ Room Allocation</a>
+            </li>
+
+            <li>
+                <a href="students.html">👨‍🎓 Student Registration</a>
+            </li>
+
+            <li>
+                <a href="fees.html">💰 Fee Payment</a>
+            </li>
+
+            <li class="active">
+                <a href="complaints.html">📢 Complaints</a>
+            </li>
+
+            <li>
+                <a href="notices.html">🔔 Notices & Services</a>
+            </li>
+
+            
+        </ul>
+
+
+        <div class="logout">
+
+            <a href="../index.html">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+
+    <div class="main-content">
+
+
+        <!-- Top Bar -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Complaint Management</h1>
+
+                <p>
+                    Manage and track student complaints
+                </p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+
+                <div>
+
+                    <strong>Admin</strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Complaint Summary -->
+
+        <div class="dashboard-cards">
+
+
+            <div class="card">
+
+                <div class="card-icon blue">
+                    📢
+                </div>
+
+
+                <div>
+
+                    <h3>28</h3>
+
+                    <p>Total Complaints</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon orange">
+                    ⏳
+                </div>
+
+
+                <div>
+
+                    <h3>8</h3>
+
+                    <p>Pending</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon green">
+                    ✅
+                </div>
+
+
+                <div>
+
+                    <h3>18</h3>
+
+                    <p>Resolved</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon red">
+                    ⚠️
+                </div>
+
+
+                <div>
+
+                    <h3>2</h3>
+
+                    <p>Urgent Complaints</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Complaint Records -->
+
+        <div class="section-box complaint-section">
+
+
+            <div class="section-header">
+
+                <h2>Complaint Records</h2>
+
+
+                <button onclick="openComplaintForm()">
+
+                    ➕ Add Complaint
+
+                </button>
+
+            </div>
+
+
+            <!-- Tools -->
+
+            <div class="complaint-tools">
+
+                <input
+                    type="text"
+                    placeholder="🔍 Search complaints or student"
+                >
+
+
+                <select>
+
+                    <option>
+                        All Status
+                    </option>
+
+                    <option>
+                        Pending
+                    </option>
+
+                    <option>
+                        In Progress
+                    </option>
+
+                    <option>
+                        Resolved
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Complaint Cards -->
+
+            <div class="complaint-list">
+
+
+                <div class="complaint-card">
+
+
+                    <div class="complaint-top">
+
+                        <div>
+
+                            <h3>
+                                Water Supply Issue
+                            </h3>
+
+                            <p>
+                                Complaint ID: #CMP001
+                            </p>
+
+                        </div>
+
+
+                        <span class="complaint-pending">
+
+                            Pending
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="complaint-info">
+
+                        <p>
+                            👨‍🎓 <strong>Student:</strong>
+                            Rahul Sharma
+                        </p>
+
+
+                        <p>
+                            🏷️ <strong>Category:</strong>
+                            Maintenance
+                        </p>
+
+
+                        <p>
+                            📅 <strong>Date:</strong>
+                            15 Jul 2026
+                        </p>
+
+                    </div>
+
+
+                    <p class="complaint-description">
+
+                        Water supply has been unavailable since
+                        morning in Room 204.
+
+                    </p>
+
+
+                    <div class="complaint-actions">
+
+                        <button class="view-btn">
+
+                            View Details
+
+                        </button>
+
+
+                        <button class="resolve-btn">
+
+                            Resolve
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="complaint-card">
+
+
+                    <div class="complaint-top">
+
+                        <div>
+
+                            <h3>
+                                Broken Study Table
+                            </h3>
+
+                            <p>
+                                Complaint ID: #CMP002
+                            </p>
+
+                        </div>
+
+
+                        <span class="complaint-progress">
+
+                            In Progress
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="complaint-info">
+
+                        <p>
+                            👨‍🎓 <strong>Student:</strong>
+                            Sita Thapa
+                        </p>
+
+
+                        <p>
+                            🏷️ <strong>Category:</strong>
+                            Furniture
+                        </p>
+
+
+                        <p>
+                            📅 <strong>Date:</strong>
+                            14 Jul 2026
+                        </p>
+
+                    </div>
+
+
+                    <p class="complaint-description">
+
+                        The study table in Room 102 is damaged
+                        and needs repair.
+
+                    </p>
+
+
+                    <div class="complaint-actions">
+
+                        <button class="view-btn">
+
+                            View Details
+
+                        </button>
+
+
+                        <button class="progress-btn">
+
+                            Update
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="complaint-card">
+
+
+                    <div class="complaint-top">
+
+                        <div>
+
+                            <h3>
+                                Room Light Problem
+                            </h3>
+
+                            <p>
+                                Complaint ID: #CMP003
+                            </p>
+
+                        </div>
+
+
+                        <span class="complaint-resolved">
+
+                            Resolved
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="complaint-info">
+
+                        <p>
+                            👨‍🎓 <strong>Student:</strong>
+                            Anish Karki
+                        </p>
+
+
+                        <p>
+                            🏷️ <strong>Category:</strong>
+                            Electrical
+                        </p>
+
+
+                        <p>
+                            📅 <strong>Date:</strong>
+                            12 Jul 2026
+                        </p>
+
+                    </div>
+
+
+                    <p class="complaint-description">
+
+                        Room light was not working properly.
+
+                    </p>
+
+
+                    <div class="complaint-actions">
+
+                        <button class="view-btn">
+
+                            View Details
+
+                        </button>
+
+
+                        <button class="resolved-btn" disabled>
+
+                            Resolved
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Add Complaint Modal -->
+
+    <div class="modal" id="complaintModal">
+
+
+        <div class="modal-content">
+
+
+            <span
+                class="close"
+                onclick="closeComplaintForm()"
+            >
+
+                &times;
+
+            </span>
+
+
+            <h2>
+                Add Complaint
+            </h2>
+
+
+            <form id="complaintForm">
+
+
+                <label>
+                    Student Name
+                </label>
+
+
+                <input
+                    type="text"
+                    placeholder="Enter student name"
+                    required
+                >
+
+
+                <label>
+                    Student ID
+                </label>
+
+
+                <input
+                    type="text"
+                    placeholder="Enter student ID"
+                    required
+                >
+
+
+                <label>
+                    Complaint Title
+                </label>
+
+
+                <input
+                    type="text"
+                    placeholder="Enter complaint title"
+                    required
+                >
+
+
+                <label>
+                    Category
+                </label>
+
+
+                <select required>
+
+                    <option value="">
+                        Select category
+                    </option>
+
+                    <option>
+                        Maintenance
+                    </option>
+
+                    <option>
+                        Electrical
+                    </option>
+
+                    <option>
+                        Furniture
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Complaint Description
+                </label>
+
+
+                <textarea
+                    rows="4"
+                    placeholder="Describe the complaint"
+                    required
+                ></textarea>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+
+                    Submit Complaint
+
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>

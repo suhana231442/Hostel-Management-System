@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Registration | Hostel Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            <h2>HMS</h2>
+            <p>Hostel Management</p>
+        </div>
+
+
+        <ul class="menu">
+
+            <li>
+                <a href="dashboard.html">📊 Dashboard</a>
+            </li>
+
+            <li>
+                <a href="rooms.html">🛏️ Room Allocation</a>
+            </li>
+
+            <li class="active">
+                <a href="students.html">👨‍🎓 Student Registration</a>
+            </li>
+
+            <li>
+                <a href="fees.html">💰 Fee Payment</a>
+            </li>
+
+            <li>
+                <a href="complaints.html">📢 Complaints</a>
+            </li>
+
+            <li>
+                <a href="notices.html">🔔 Notices & Services</a>
+            </li>
+
+           
+        </ul>
+
+
+        <div class="logout">
+            <a href="../index.html">🚪 Logout</a>
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+
+    <div class="main-content">
+
+        <!-- Top Bar -->
+
+        <div class="topbar">
+
+            <div>
+                <h1>Student Registration</h1>
+
+                <p>
+                    Register and manage hostel students
+                </p>
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+                <div>
+                    <strong>Admin</strong>
+
+                    <small>
+                        Administrator
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Registration Form -->
+
+        <div class="registration-box">
+
+            <div class="registration-header">
+
+                <div>
+                    <h2>Register New Student</h2>
+
+                    <p>
+                        Enter the student's personal and academic information
+                    </p>
+                </div>
+
+                <span class="form-icon">
+                    👨‍🎓
+                </span>
+
+            </div>
+
+
+            <form id="studentForm">
+
+
+                <!-- Personal Information -->
+
+                <h3 class="form-section-title">
+                    Personal Information
+                </h3>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            placeholder="Enter full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Student ID
+                        </label>
+
+                        <input
+                            type="text"
+                            placeholder="Enter student ID"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Date of Birth
+                        </label>
+
+                        <input
+                            type="date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Gender
+                        </label>
+
+                        <select required>
+
+                            <option value="">
+                                Select gender
+                            </option>
+
+                            <option>
+                                Male
+                            </option>
+
+                            <option>
+                                Female
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            placeholder="Enter email address"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            placeholder="Enter phone number"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Academic Information -->
+
+                <h3 class="form-section-title">
+                    Academic Information
+                </h3>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Course / Program
+                        </label>
+
+                        <input
+                            type="text"
+                            placeholder="Enter course or program"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Semester / Year
+                        </label>
+
+                        <select required>
+
+                            <option value="">
+                                Select semester
+                            </option>
+
+                            <option>
+                                First Semester
+                            </option>
+
+                            <option>
+                                Second Semester
+                            </option>
+
+                            <option>
+                                Third Semester
+                            </option>
+
+                            <option>
+                                Fourth Semester
+                            </option>
+
+                            <option>
+                                Fifth Semester
+                            </option>
+
+                            <option>
+                                Sixth Semester
+                            </option>
+
+                            <option>
+                                Seventh Semester
+                            </option>
+
+                            <option>
+                                Eighth Semester
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Address -->
+
+                <h3 class="form-section-title">
+                    Address Information
+                </h3>
+
+
+                <div class="form-group full-width">
+
+                    <label>
+                        Permanent Address
+                    </label>
+
+                    <textarea
+                        placeholder="Enter permanent address"
+                        rows="4"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <div class="form-buttons">
+
+                    <button
+                        type="reset"
+                        class="clear-btn"
+                    >
+                        Clear Form
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="register-btn"
+                    >
+                        Register Student
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+
+</html>
