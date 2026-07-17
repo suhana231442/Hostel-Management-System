@@ -136,9 +136,12 @@
 
                         <input
                             type="text"
+                            id="full_name"
+                            name="full_name"
                             placeholder="Enter full name"
                             required
-                        >
+>
+                        
 
                     </div>
 
@@ -150,10 +153,12 @@
                         </label>
 
                         <input
-                            type="text"
-                            placeholder="Enter student ID"
-                            required
-                        >
+                          type="text"
+                          id="student_id"
+                          name="student_id"
+                          placeholder="Enter student ID"
+                          required
+>
 
                     </div>
 
@@ -164,10 +169,13 @@
                             Date of Birth
                         </label>
 
-                        <input
-                            type="date"
-                            required
-                        >
+                        <input    
+                         type="date"
+                         id="date_of_birth"
+                         name="date_of_birth"
+                         required
+>
+                        
 
                     </div>
 
@@ -178,7 +186,11 @@
                             Gender
                         </label>
 
-                        <select required>
+                        <select 
+                         id="gender"
+                         name="gender"
+                         required
+>
 
                             <option value="">
                                 Select gender
@@ -207,11 +219,13 @@
                             Email Address
                         </label>
 
-                        <input
-                            type="email"
-                            placeholder="Enter email address"
-                            required
-                        >
+                       <input
+                         type="email"
+                         id="email"
+                         name="email"
+                         placeholder="Enter email address"
+                         required
+>
 
                     </div>
 
@@ -223,10 +237,12 @@
                         </label>
 
                         <input
-                            type="tel"
-                            placeholder="Enter phone number"
-                            required
-                        >
+                         type="tel"
+                         id="phone"
+                         name="phone"
+                         placeholder="Enter phone number"
+                         required
+>
 
                     </div>
 
@@ -249,10 +265,12 @@
                         </label>
 
                         <input
-                            type="text"
-                            placeholder="Enter course or program"
-                            required
-                        >
+                         type="text"
+                         id="course"
+                         name="course"
+                         placeholder="Enter course or program"
+                         required
+>
 
                     </div>
 
@@ -263,7 +281,11 @@
                             Semester / Year
                         </label>
 
-                        <select required>
+                        <select
+                            id="semester"
+                            name="semester"
+                            required
+                        >
 
                             <option value="">
                                 Select semester
@@ -331,33 +353,107 @@
 
 
                 <!-- Buttons -->
+                 ...
+<!-- Academic Information -->
 
-                <div class="form-buttons">
+<!-- Guardian Information -->
 
-                    <button
-                        type="reset"
-                        class="clear-btn"
-                    >
-                        Clear Form
-                    </button>
+<h3 class="form-section-title">
+    Guardian Information
+</h3>
 
+<div class="form-grid">
 
-                    <button
-                        type="submit"
-                        class="register-btn"
-                    >
-                        Register Student
-                    </button>
-
-                </div>
-
-
-            </form>
-
-        </div>
-
+    <div class="form-group">
+        <label>Guardian Name</label>
+        <input
+            type="text"
+            id="guardian_name"
+            name="guardian_name"
+            placeholder="Guardian Name"
+            required
+        >
     </div>
 
+    <div class="form-group">
+        <label>Guardian Phone</label>
+        <input
+            type="text"
+            id="guardian_phone"
+            name="guardian_phone"
+            placeholder="Guardian Phone"
+            required
+        >
+    </div>
+
+    <div class="form-group">
+        <label>Registration Date</label>
+        <input
+            type="date"
+            id="registration_date"
+            name="registration_date"
+            required
+        >
+    </div>
+
+    <div class="form-group">
+        <label>Status</label>
+        <select id="status" name="status">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+    </div>
+
+</div>
+
+<div class="form-buttons">
+
+    <button type="reset" class="clear-btn">
+        Clear Form
+    </button>
+
+    <button type="submit" class="register-btn">
+        Register Student
+    </button>
+
+</div>
+
+</form>
+<hr>
+
+<h2>Registered Students</h2>
+
+<table border="1" width="100%" id="studentsTable">
+
+    <thead>
+
+        <tr>
+
+            <th>ID</th>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Semester</th>
+            <th>Phone</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    </tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>
+</div>
 
     <script src="../js/script.js"></script>
 

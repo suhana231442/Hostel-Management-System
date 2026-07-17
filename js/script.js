@@ -1,98 +1,92 @@
-function showMessage() {
-    alert("All recent activities will be displayed here.");
-}
+// Student Registration
 
+document.getElementById("studentForm").addEventListener("submit", function (e) {
 
-function openRoomForm() {
-    document.getElementById("roomModal").style.display = "flex";
-}
+    e.preventDefault();
 
+    const data = {
 
-function closeRoomForm() {
-    document.getElementById("roomModal").style.display = "none";
-}
+        student_id: document.getElementById("student_id").value,
+        full_name: document.getElementById("full_name").value,
+        date_of_birth: document.getElementById("date_of_birth").value,
+        gender: document.getElementById("gender").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        course: document.getElementById("course").value,
+        semester: document.getElementById("semester").value,
+        guardian_name: document.getElementById("guardian_name").value,
+        guardian_phone: document.getElementById("guardian_phone").value,
+        registration_date: document.getElementById("registration_date").value,
+        status: document.getElementById("status").value
 
+    };
 
-window.onclick = function(event) {
+    fetch("http://localhost/hostel-management-system/backend/students/create.php", {
 
-    let modal = document.getElementById("roomModal");
+        method: "POST",
 
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-};
-document.getElementById("studentForm").addEventListener("submit", function(event) {
+        body: JSON.stringify(data)
 
-    event.preventDefault();
+    })
 
-    alert("Student registered successfully!");
+    .then(response => response.json())
 
-    this.reset();
+    .then(result => {
 
-});
-function openPaymentForm() {
-    document.getElementById("paymentModal").style.display = "flex";
-}
+        alert(result.message);
 
+        if (result.success) {
 
-function closePaymentForm() {
-    document.getElementById("paymentModal").style.display = "none";
-}
+            document.getElementById("studentForm").reset();
 
+        }
 
-document.getElementById("paymentForm").addEventListener("submit", function(event) {
+    })
 
-    event.preventDefault();
+    .catch(error => {
 
-    alert("Payment record saved successfully!");
+        console.error(error);
 
-    this.reset();
+        alert("Error connecting to backend.");
 
-    closePaymentForm();
-
-});
-function openComplaintForm() {
-    document.getElementById("complaintModal").style.display = "flex";
-}
-
-
-function closeComplaintForm() {
-    document.getElementById("complaintModal").style.display = "none";
-}
-
-
-document.getElementById("complaintForm").addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-    alert("Complaint submitted successfully!");
-
-    this.reset();
-
-    closeComplaintForm();
+    });
 
 });
-function openNoticeForm() {
-    document.getElementById("noticeModal").style.display = "flex";
+// Load Students
+
+function loadStudents() {
+
+    fetch("http://localhost/hostel-management-system/backend/students/read.php")
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        let table = document.querySelector("#studentsTable tbody");
+
+        table.innerHTML = "";
+
+        data.students.forEach(student => {
+
+            table.innerHTML += `
+                <tr>
+                    <td>${student.student_id}</td>
+                    <td>${student.full_name}</td>
+                    <td>${student.course}</td>
+                    <td>${student.semester}</td>
+                    <td>${student.phone}</td>
+                </tr>
+            `;
+
+        });
+
+    });
+
 }
 
-
-function closeNoticeForm() {
-    document.getElementById("noticeModal").style.display = "none";
-}
-
-
-document.getElementById("noticeForm").addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-    alert("Notice published successfully!");
-
-    this.reset();
-
-    closeNoticeForm();
-
-});
-
-
+// Run when page opens
+loadStudents();
