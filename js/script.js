@@ -110,11 +110,10 @@ if (studentForm) {
 
         })
 
-        .then(response => response.json())
+        .then(response => response.text())
 
         .then(result => {
-
-            alert(result.message);
+             alert(result);
 
             if (result.success) {
 
@@ -128,7 +127,7 @@ if (studentForm) {
 
             console.error(error);
 
-            alert("Error: " + error.message);S
+            alert("Error: " + error.message);
 
         });
 
@@ -190,5 +189,3 @@ function loadStudents() {
         });
 
 }
-
-
