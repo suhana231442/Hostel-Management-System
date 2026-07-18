@@ -47,8 +47,7 @@ if (loginForm) {
         .catch(error => {
 
             console.error(error);
-
-            alert("Error connecting to backend.");
+            alert("Error: " + error.message);
 
         });
 
@@ -129,7 +128,7 @@ if (studentForm) {
 
             console.error(error);
 
-            alert("Error connecting to backend.");
+            alert("Error: " + error.message);S
 
         });
 
@@ -187,58 +186,6 @@ function loadStudents() {
         .catch(error => {
 
             console.error("Error loading students:", error);
-
-        });
-
-}
-
-
-// Run student loading only when needed
-
-loadStudents();
-// ===============================
-// DASHBOARD DATA
-// ===============================
-
-function loadDashboardData() {
-
-    const totalStudents = document.getElementById("totalStudents");
-
-    if (!totalStudents) {
-
-        return;
-
-    }
-
-        fetch("../dashboard/dashboard_data.php", {
-            credentials: "include"
-    })
-
-        .then(response => response.json())
-
-        .then(data => {
-
-            if (data.success) {
-
-                document.getElementById("totalStudents").textContent =
-                    data.total_students;
-
-                document.getElementById("totalRooms").textContent =
-                    data.total_rooms;
-
-                document.getElementById("pendingFees").textContent =
-                    data.pending_fees;
-
-                document.getElementById("pendingComplaints").textContent =
-                    data.pending_complaints;
-
-            }
-
-        })
-
-        .catch(error => {
-
-            console.error("Error loading dashboard data:", error);
 
         });
 
