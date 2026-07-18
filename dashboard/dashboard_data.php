@@ -1,7 +1,10 @@
 <?php
 
-include("../config/database.php");
+session_start();
+
 include("../auth/auth_check.php");
+
+include("../config/database.php");
 
 $totalStudents = $conn->query("SELECT COUNT(*) FROM students")->fetchColumn();
 
