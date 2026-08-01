@@ -12,6 +12,7 @@ if (loginForm) {
 
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
+
         fetch("auth/login.php", {
             credentials: "include",
 
@@ -113,7 +114,8 @@ if (studentForm) {
         .then(response => response.text())
 
         .then(result => {
-             alert(result);
+
+            alert(result);
 
             if (result.success) {
 
@@ -187,5 +189,197 @@ function loadStudents() {
             console.error("Error loading students:", error);
 
         });
+
+}
+
+
+// ===============================
+// LOAD DASHBOARD DATA
+// ===============================
+
+function loadDashboardData() {
+
+    const totalStudents = document.getElementById("totalStudents");
+
+    if (!totalStudents) {
+
+        return;
+
+    }
+
+    fetch("../dashboard/dashboard_data.php", {
+
+        credentials: "include"
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (data.success) {
+
+            document.getElementById("totalStudents").textContent =
+                data.total_students;
+
+            document.getElementById("totalRooms").textContent =
+                data.total_rooms;
+
+            document.getElementById("pendingFees").textContent =
+                data.pending_fees;
+
+            document.getElementById("pendingComplaints").textContent =
+                data.pending_complaints;
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error("Dashboard error:", error);
+
+    });
+
+}
+
+
+// ===============================
+// ROOM ALLOCATION
+// ===============================
+
+const roomAllocationForm = document.getElementById("roomAllocationForm");
+
+if (roomAllocationForm) {
+
+    roomAllocationForm.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const data = {
+
+            student_id: document.getElementById("student_id").value,
+
+            room_id: document.getElementById("room_number").value
+
+        };
+
+        fetch("../room/allocate.php", {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            credentials: "include",
+
+            body: JSON.stringify(data)
+
+        })
+
+        .then(response => response.json())
+
+        .then(result => {
+
+            alert(result.message);
+
+            if (result.success) {
+
+                roomAllocationForm.reset();
+
+                closeRoomForm();
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error("Room allocation error:", error);
+
+            alert("Error connecting to backend");
+
+        });
+
+    });
+
+}
+
+
+// ===============================
+// LOAD ROOMS
+// ===============================
+
+function loadRooms() {
+
+    const roomSelect = document.getElementById("room_number");
+
+    if (!roomSelect) {
+
+        return;
+
+    }
+
+    fetch("../room/read.php", {
+
+        credentials: "include"
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (data.success) {
+
+            roomSelect.innerHTML =
+                '<option value="">Select a room</option>';
+
+            data.rooms.forEach(room => {
+
+                if (room.occupied_beds < room.capacity) {
+
+                    roomSelect.innerHTML += `
+
+                        <option value="${room.id}">
+                            Room ${room.room_number}
+                        </option>
+
+                    `;
+
+                }
+
+            });
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error("Room loading error:", error);
+
+    });
+
+}
+
+loadRooms();
+
+// ===============================
+// ROOM MODAL
+// ===============================
+
+function openRoomForm() {
+
+    document.getElementById("roomModal").style.display = "flex";
+
+}
+
+function closeRoomForm() {
+
+    document.getElementById("roomModal").style.display = "none";
 
 }

@@ -38,7 +38,7 @@ VALUES(?,?,?,?,?)");
 $sql->execute([
     $data["student_id"],
     $data["room_id"],
-    $data["bed_number"],
+    $room["occupied_beds"] + 1
     date("Y-m-d"),
     "Allocated"
 ]);

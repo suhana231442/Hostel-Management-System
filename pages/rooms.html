@@ -226,25 +226,21 @@
 
             <h2>Allocate Room</h2>
 
-            <form>
+            <form id="roomAllocationForm"></form>
 
                 <label>Student Name</label>
-                <input type="text" placeholder="Enter student name" required>
+                <input type="text" id="student_name" placeholder="Enter student name" required>
 
                 <label>Student ID</label>
-                <input type="text" placeholder="Enter student ID" required>
+                <input type="text" id="student_id" placeholder="Enter student ID" required>
 
                 <label>Select Room</label>
 
-                <select required>
+                <select id="room_number" required>
 
-                    <option value="">Select a room</option>
-                    <option>Room 101</option>
-                    <option>Room 102</option>
-                    <option>Room 104</option>
+                    <option value="">Loading rooms...</option>
 
                 </select>
-
                 <button type="submit" class="submit-btn">
                     Allocate Room
                 </button>
