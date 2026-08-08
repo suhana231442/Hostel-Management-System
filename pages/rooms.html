@@ -1,15 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Room Allocation | Hostel Management System</title>
 
     <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            border: none;
+            border-radius: 6px;
+            background: #36b5e8;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #249dcc;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
 </head>
+
 <body>
 
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
+
     <div class="sidebar">
 
         <div class="logo">
@@ -43,8 +134,6 @@
                 <a href="notices.html">🔔 Notices & Services</a>
             </li>
 
-            
-
         </ul>
 
         <div class="logout">
@@ -54,10 +143,12 @@
     </div>
 
 
-    <!-- Main Content -->
+    <!-- MAIN CONTENT -->
+
     <div class="main-content">
 
-        <!-- Top Bar -->
+        <!-- TOP BAR -->
+
         <div class="topbar">
 
             <div>
@@ -66,143 +157,262 @@
             </div>
 
             <div class="admin-profile">
-                <div class="profile-icon">A</div>
+
+                <div class="profile-icon">
+                    A
+                </div>
 
                 <div>
                     <strong>Admin</strong>
                     <small>Administrator</small>
                 </div>
+
             </div>
 
         </div>
 
 
-        <!-- Room Summary -->
+        <!-- ROOM SUMMARY -->
+
         <div class="dashboard-cards">
 
             <div class="card">
-                <div class="card-icon blue">🛏️</div>
+
+                <div class="card-icon blue">
+                    🛏️
+                </div>
 
                 <div>
                     <h3>50</h3>
                     <p>Total Rooms</p>
                 </div>
+
             </div>
 
+
             <div class="card">
-                <div class="card-icon green">✅</div>
+
+                <div class="card-icon green">
+                    ✅
+                </div>
 
                 <div>
                     <h3>35</h3>
                     <p>Available Rooms</p>
                 </div>
+
             </div>
 
+
             <div class="card">
-                <div class="card-icon orange">👨‍🎓</div>
+
+                <div class="card-icon orange">
+                    👨‍🎓
+                </div>
 
                 <div>
                     <h3>15</h3>
                     <p>Occupied Rooms</p>
                 </div>
+
             </div>
 
+
             <div class="card">
-                <div class="card-icon red">⚠️</div>
+
+                <div class="card-icon red">
+                    ⚠️
+                </div>
 
                 <div>
                     <h3>5</h3>
                     <p>Full Rooms</p>
                 </div>
+
             </div>
 
         </div>
 
 
-        <!-- Room Section -->
+        <!-- ROOM SECTION -->
+
         <div class="section-box room-section">
 
             <div class="section-header">
 
                 <h2>Hostel Rooms</h2>
 
-                <button onclick="openRoomForm()">
+                <button type="button" onclick="openRoomForm()">
                     ➕ Allocate Room
                 </button>
 
             </div>
 
 
-            <!-- Room Cards -->
+            <!-- ROOM GRID -->
+
             <div class="room-grid">
 
+
+                <!-- ROOM 101 -->
+
                 <div class="room-card">
 
                     <div class="room-header">
+
                         <h3>Room 101</h3>
-                        <span class="available">Available</span>
+
+                        <span class="available">
+                            Available
+                        </span>
+
                     </div>
 
-                    <p><strong>Room Type:</strong> Double Sharing</p>
-                    <p><strong>Capacity:</strong> 2 Students</p>
-                    <p><strong>Occupied:</strong> 1 Student</p>
+                    <p>
+                        <strong>Room Type:</strong>
+                        Double Sharing
+                    </p>
 
-                    <button class="allocate-btn" onclick="openRoomForm()">
+                    <p>
+                        <strong>Capacity:</strong>
+                        2 Students
+                    </p>
+
+                    <p>
+                        <strong>Occupied:</strong>
+                        1 Student
+                    </p>
+
+                    <button
+                        type="button"
+                        class="allocate-btn"
+                        onclick="openRoomFormWithRoom('101')">
+
                         Allocate Room
+
                     </button>
 
                 </div>
 
 
+                <!-- ROOM 102 -->
+
                 <div class="room-card">
 
                     <div class="room-header">
+
                         <h3>Room 102</h3>
-                        <span class="available">Available</span>
+
+                        <span class="available">
+                            Available
+                        </span>
+
                     </div>
 
-                    <p><strong>Room Type:</strong> Single Room</p>
-                    <p><strong>Capacity:</strong> 1 Student</p>
-                    <p><strong>Occupied:</strong> 0 Students</p>
+                    <p>
+                        <strong>Room Type:</strong>
+                        Single Room
+                    </p>
 
-                    <button class="allocate-btn" onclick="openRoomForm()">
+                    <p>
+                        <strong>Capacity:</strong>
+                        1 Student
+                    </p>
+
+                    <p>
+                        <strong>Occupied:</strong>
+                        0 Students
+                    </p>
+
+                    <button
+                        type="button"
+                        class="allocate-btn"
+                        onclick="openRoomFormWithRoom('102')">
+
                         Allocate Room
+
                     </button>
 
                 </div>
 
 
+                <!-- ROOM 103 -->
+
                 <div class="room-card">
 
                     <div class="room-header">
+
                         <h3>Room 103</h3>
-                        <span class="occupied">Occupied</span>
+
+                        <span class="occupied">
+                            Occupied
+                        </span>
+
                     </div>
 
-                    <p><strong>Room Type:</strong> Triple Sharing</p>
-                    <p><strong>Capacity:</strong> 3 Students</p>
-                    <p><strong>Occupied:</strong> 3 Students</p>
+                    <p>
+                        <strong>Room Type:</strong>
+                        Triple Sharing
+                    </p>
 
-                    <button class="full-btn" disabled>
+                    <p>
+                        <strong>Capacity:</strong>
+                        3 Students
+                    </p>
+
+                    <p>
+                        <strong>Occupied:</strong>
+                        3 Students
+                    </p>
+
+                    <button
+                        type="button"
+                        class="full-btn"
+                        disabled>
+
                         Room Full
+
                     </button>
 
                 </div>
 
 
+                <!-- ROOM 104 -->
+
                 <div class="room-card">
 
                     <div class="room-header">
+
                         <h3>Room 104</h3>
-                        <span class="available">Available</span>
+
+                        <span class="available">
+                            Available
+                        </span>
+
                     </div>
 
-                    <p><strong>Room Type:</strong> Double Sharing</p>
-                    <p><strong>Capacity:</strong> 2 Students</p>
-                    <p><strong>Occupied:</strong> 0 Students</p>
+                    <p>
+                        <strong>Room Type:</strong>
+                        Double Sharing
+                    </p>
 
-                    <button class="allocate-btn" onclick="openRoomForm()">
+                    <p>
+                        <strong>Capacity:</strong>
+                        2 Students
+                    </p>
+
+                    <p>
+                        <strong>Occupied:</strong>
+                        0 Students
+                    </p>
+
+                    <button
+                        type="button"
+                        class="allocate-btn"
+                        onclick="openRoomFormWithRoom('104')">
+
                         Allocate Room
+
                     </button>
 
                 </div>
@@ -214,18 +424,24 @@
     </div>
 
 
-    <!-- Room Allocation Form -->
+    <!-- ALLOCATION MODAL -->
 
     <div class="modal" id="roomModal">
 
         <div class="modal-content">
 
-            <span class="close" onclick="closeRoomForm()">
+            <span
+                class="close"
+                onclick="closeRoomForm()">
+
                 &times;
+
             </span>
+
 
             <h2>Allocate Room</h2>
 
+<<<<<<< HEAD
             <form id="roomAllocationForm"></form>
 
                 <label>Student Name</label>
@@ -233,17 +449,100 @@
 
                 <label>Student ID</label>
                 <input type="text" id="student_id" placeholder="Enter student ID" required>
+=======
+            <p>
+                Allocate a hostel room to a registered student.
+            </p>
 
-                <label>Select Room</label>
 
+            <form id="roomForm">
+>>>>>>> e89a006 (Updated hostel management system backend)
+
+
+<<<<<<< HEAD
                 <select id="room_number" required>
 
                     <option value="">Loading rooms...</option>
 
                 </select>
                 <button type="submit" class="submit-btn">
+=======
+                <!-- STUDENT ID -->
+
+                <label for="student_id">
+                    Student ID
+                </label>
+
+                <input
+                    type="text"
+                    id="student_id"
+                    name="student_id"
+                    placeholder="Enter student ID"
+                    required>
+
+
+                <!-- ROOM ID -->
+
+                <label for="room_id">
+                    Room ID
+                </label>
+
+                <input
+                    type="text"
+                    id="room_id"
+                    name="room_id"
+                    placeholder="Enter room ID"
+                    required>
+
+
+                <!-- ROOM NUMBER -->
+
+                <label for="room_number">
+                    Room Number
+                </label>
+
+                <select
+                    id="room_number"
+                    name="room_number"
+                    required>
+
+                    <option value="">
+                        Select Room
+                    </option>
+
+                    <option value="101">
+                        Room 101
+                    </option>
+
+                    <option value="102">
+                        Room 102
+                    </option>
+
+                    <option value="104">
+                        Room 104
+                    </option>
+
+                </select>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="submit-btn">
+
+>>>>>>> e89a006 (Updated hostel management system backend)
                     Allocate Room
+
                 </button>
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    id="roomMessage"
+                    class="message">
+                </div>
 
             </form>
 
@@ -252,7 +551,249 @@
     </div>
 
 
-    <script src="../js/script.js"></script>
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // OPEN FORM
+
+        function openRoomForm() {
+
+            document.getElementById("roomModal").style.display = "flex";
+
+            document.getElementById("roomMessage").style.display = "none";
+
+        }
+
+
+        // OPEN FORM WITH ROOM NUMBER
+
+        function openRoomFormWithRoom(roomNumber) {
+
+            document.getElementById("roomModal").style.display = "flex";
+
+            document.getElementById("roomMessage").style.display = "none";
+
+            document.getElementById("room_number").value = roomNumber;
+
+            document.getElementById("room_id").value = roomNumber;
+
+        }
+
+
+        // CLOSE FORM
+
+        function closeRoomForm() {
+
+            document.getElementById("roomModal").style.display = "none";
+
+        }
+
+
+        // CLOSE WHEN CLICKING OUTSIDE
+
+        window.addEventListener("click", function(event) {
+
+            const modal =
+                document.getElementById("roomModal");
+
+            if (event.target === modal) {
+
+                closeRoomForm();
+
+            }
+
+        });
+
+
+        // ROOM FORM SUBMIT
+
+        document
+            .getElementById("roomForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+
+                const studentId =
+                    document.getElementById("student_id").value.trim();
+
+                const roomId =
+                    document.getElementById("room_id").value.trim();
+
+                const roomNumber =
+                    document.getElementById("room_number").value;
+
+
+                const message =
+                    document.getElementById("roomMessage");
+
+
+                if (studentId === "") {
+
+                    showMessage(
+                        "Please enter Student ID.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                if (roomId === "") {
+
+                    showMessage(
+                        "Please enter Room ID.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                if (roomNumber === "") {
+
+                    showMessage(
+                        "Please select a room.",
+                        false
+                    );
+
+                    return;
+
+                }
+
+
+                const data = {
+
+                    student_id: studentId,
+
+                    room_id: roomId,
+
+                    room_number: roomNumber
+
+                };
+
+
+                fetch(
+                    "../backend/rooms/allocate.php",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify(data)
+
+                    }
+                )
+
+                .then(function(response) {
+
+                    return response.text();
+
+                })
+
+                .then(function(result) {
+
+                    console.log(result);
+
+                    try {
+
+                        const data =
+                            JSON.parse(result);
+
+
+                        if (data.success) {
+
+                            showMessage(
+                                data.message ||
+                                "Room allocated successfully!",
+                                true
+                            );
+
+
+                            setTimeout(function() {
+
+                                closeRoomForm();
+
+                                location.reload();
+
+                            }, 1500);
+
+
+                        } else {
+
+                            showMessage(
+                                data.message ||
+                                "Room allocation failed.",
+                                false
+                            );
+
+                        }
+
+                    } catch (error) {
+
+                        showMessage(
+                            "Backend returned an invalid response.",
+                            false
+                        );
+
+                        console.log(
+                            "Backend response:",
+                            result
+                        );
+
+                    }
+
+                })
+
+                .catch(function(error) {
+
+                    console.log(error);
+
+                    showMessage(
+                        "Cannot connect to backend. Make sure Apache and MySQL are running.",
+                        false
+                    );
+
+                });
+
+            });
+
+
+        // SHOW MESSAGE
+
+        function showMessage(text, success) {
+
+            const message =
+                document.getElementById("roomMessage");
+
+            message.innerText = text;
+
+            message.style.display = "block";
+
+            if (success) {
+
+                message.className =
+                    "message success";
+
+            } else {
+
+                message.className =
+                    "message error";
+
+            }
+
+        }
+
+    </script>
+
 
 </body>
+
 </html>

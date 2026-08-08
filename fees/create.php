@@ -3,32 +3,35 @@
 include("../config/database.php");
 include("../auth/auth_check.php");
 
-$data = json_decode(file_get_contents("php://input"), true);
+$student_id = $_POST['student_id'];
+$amount = $_POST['amount'];
+$fee_type = $_POST['fee_type'];
+$payment_date = $_POST['payment_date'];
+$payment_method = $_POST['payment_method'];
+$status = $_POST['status'];
+$transaction_reference = $_POST['transaction_reference'];
 
-$sql = $conn->prepare("INSERT INTO fees
+$sql = $conn->prepare("
+INSERT INTO fees
 (student_id, amount, fee_type, payment_date, payment_method, status, transaction_reference)
-VALUES (?, ?, ?, ?, ?, ?, ?)");
+VALUES (?, ?, ?, ?, ?, ?, ?)
+");
 
 $result = $sql->execute([
-    $data["student_id"],
-    $data["amount"],
-    $data["fee_type"],
-    $data["payment_date"],
-    $data["payment_method"],
-    $data["status"],
-    $data["transaction_reference"]
+    $student_id,
+    $amount,
+    $fee_type,
+    $payment_date,
+    $payment_method,
+    $status,
+    $transaction_reference
 ]);
 
 if ($result) {
-    echo json_encode([
-        "success" => true,
-        "message" => "Payment recorded successfully."
-    ]);
+    header("Location: ../pages/fees.html?success=1");
+    exit();
 } else {
-    echo json_encode([
-        "success" => false,
-        "message" => "Payment failed."
-    ]);
+    echo "Payment Failed.";
 }
 
 ?>

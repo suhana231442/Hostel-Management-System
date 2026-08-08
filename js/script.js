@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ===============================
 // ADMIN LOGIN
 // ===============================
@@ -49,13 +50,48 @@ if (loginForm) {
 
             console.error(error);
             alert("Error: " + error.message);
+=======
+// =======================
+// STUDENT PAGE
+// =======================
 
-        });
+function loadStudents() {
 
-    });
+    const table = document.querySelector("#studentsTable tbody");
+
+    if (!table) return;
+
+    fetch("../students/read.php")
+        .then(response => response.json())
+        .then(data => {
+
+            table.innerHTML = "";
+
+            if (data.students) {
+
+                data.students.forEach(student => {
+
+                    table.innerHTML += `
+                        <tr>
+                            <td>${student.student_id}</td>
+                            <td>${student.full_name}</td>
+                            <td>${student.course}</td>
+                            <td>${student.semester}</td>
+                            <td>${student.phone}</td>
+                        </tr>
+                    `;
+>>>>>>> e89a006 (Updated hostel management system backend)
+
+                });
+
+            }
+
+        })
+        .catch(error => console.log(error));
 
 }
 
+<<<<<<< HEAD
 
 // ===============================
 // STUDENT REGISTRATION
@@ -134,10 +170,31 @@ if (studentForm) {
         });
 
     });
+=======
+if (document.getElementById("studentsTable")) {
+    loadStudents();
+}
+
+
+// =======================
+// PAYMENT MODAL
+// =======================
+
+function openPaymentForm() {
+
+    document.getElementById("paymentModal").style.display = "flex";
+
+}
+
+function closePaymentForm() {
+
+    document.getElementById("paymentModal").style.display = "none";
+>>>>>>> e89a006 (Updated hostel management system backend)
 
 }
 
 
+<<<<<<< HEAD
 // ===============================
 // LOAD STUDENTS
 // ===============================
@@ -383,3 +440,18 @@ function closeRoomForm() {
     document.getElementById("roomModal").style.display = "none";
 
 }
+=======
+// Close modal when clicking outside
+
+window.onclick = function (event) {
+
+    const modal = document.getElementById("paymentModal");
+
+    if (modal && event.target == modal) {
+
+        modal.style.display = "none";
+
+    }
+
+};
+>>>>>>> e89a006 (Updated hostel management system backend)
