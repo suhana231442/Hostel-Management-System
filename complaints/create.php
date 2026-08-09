@@ -1,37 +1,68 @@
 <?php
 
-include("../config/database.php");
-include("../auth/auth_check.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-$data = json_decode(file_get_contents("php://input"), true);
+header("Content-Type: application/json");
 
-$sql = $conn->prepare("INSERT INTO complaints
-(student_id, complaint_title, complaint_description, category, complaint_date, status)
-VALUES (?, ?, ?, ?, ?, ?)");
+require_once("../config/database.php");
 
-$result = $sql->execute([
-    $data["student_id"],
-    $data["complaint_title"],
-    $data["complaint_description"],
-    $data["category"],
-    date("Y-m-d"),
-    "Pending"
-]);
+try {
 
-if($result){
+    $data = json_decode(file_get_contents("php://input"), true);
 
-    echo json_encode([
-        "success"=>true,
-        "message"=>"Complaint Submitted Successfully"
+    if (!$data) {
+        throw new Exception("No data received.");
+    }
+
+    $student_id = $data["student_id"] ?? "";
+    $complaint_title = $data["complaint_title"] ?? "";
+    $complaint_description = $data["complaint_description"] ?? "";
+    $category = $data["category"] ?? "";
+
+    if (
+        empty($student_id) ||
+        empty($complaint_title) ||
+        empty($complaint_description) ||
+        empty($category)
+    ) {
+        throw new Exception("Please fill all fields.");
+    }
+
+    $sql = $conn->prepare("
+        INSERT INTO complaints
+        (student_id, complaint_title, complaint_description, category, complaint_date, status)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ");
+
+    $result = $sql->execute([
+        $student_id,
+        $complaint_title,
+        $complaint_description,
+        $category,
+        date("Y-m-d"),
+        "Pending"
     ]);
 
-}else{
-
     echo json_encode([
-        "success"=>false,
-        "message"=>"Failed to Submit Complaint"
+        "success" => true,
+        "message" => "Complaint Submitted Successfully"
     ]);
 
+} catch (PDOException $e) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Database Error: " . $e->getMessage()
+    ]);
+
+} catch (Exception $e) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => $e->getMessage()
+    ]);
 }
 
+exit;
 ?>

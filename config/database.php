@@ -1,14 +1,14 @@
 <?php
 
 $host = "localhost";
-$dbname = "hostel_management_system";
+$dbname = "hostel_management";
 $username = "root";
 $password = "";
 
 try {
 
     $conn = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8",
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
         $username,
         $password
     );
@@ -20,5 +20,4 @@ try {
     die("Database Connection Failed: " . $e->getMessage());
 
 }
-
 ?>

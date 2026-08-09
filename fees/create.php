@@ -1,37 +1,73 @@
 <?php
 
-include("../config/database.php");
-include("../auth/auth_check.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-$student_id = $_POST['student_id'];
-$amount = $_POST['amount'];
-$fee_type = $_POST['fee_type'];
-$payment_date = $_POST['payment_date'];
-$payment_method = $_POST['payment_method'];
-$status = $_POST['status'];
-$transaction_reference = $_POST['transaction_reference'];
+header("Content-Type: application/json");
 
-$sql = $conn->prepare("
-INSERT INTO fees
-(student_id, amount, fee_type, payment_date, payment_method, status, transaction_reference)
-VALUES (?, ?, ?, ?, ?, ?, ?)
-");
+require_once("../config/database.php");
 
-$result = $sql->execute([
-    $student_id,
-    $amount,
-    $fee_type,
-    $payment_date,
-    $payment_method,
-    $status,
-    $transaction_reference
-]);
+try {
 
-if ($result) {
-    header("Location: ../pages/fees.html?success=1");
-    exit();
-} else {
-    echo "Payment Failed.";
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!$data) {
+        throw new Exception("No data received.");
+    }
+
+    $student_id = $data["student_id"] ?? "";
+    $amount = $data["amount"] ?? "";
+    $fee_type = $data["fee_type"] ?? "";
+    $payment_date = $data["payment_date"] ?? "";
+    $payment_method = $data["payment_method"] ?? "";
+    $status = $data["status"] ?? "Paid";
+    $transaction_reference = $data["transaction_reference"] ?? "";
+
+    if (
+        empty($student_id) ||
+        empty($amount) ||
+        empty($fee_type) ||
+        empty($payment_date) ||
+        empty($payment_method)
+    ) {
+        throw new Exception("Please fill all required fields.");
+    }
+
+    $sql = $conn->prepare("
+        INSERT INTO fees
+        (student_id, amount, fee_type, payment_date, payment_method, status, transaction_reference)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    $sql->execute([
+        $student_id,
+        $amount,
+        $fee_type,
+        $payment_date,
+        $payment_method,
+        $status,
+        $transaction_reference
+    ]);
+
+    echo json_encode([
+        "success" => true,
+        "message" => "Payment recorded successfully."
+    ]);
+
+} catch (PDOException $e) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Database Error: " . $e->getMessage()
+    ]);
+
+} catch (Exception $e) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => $e->getMessage()
+    ]);
 }
 
+exit;
 ?>
