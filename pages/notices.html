@@ -1,298 +1,666 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Notices & Services | HMS</title>
-<link rel="stylesheet" href="../css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{margin:0;font-family:Arial;background:#f5f7fb;color:#14213d}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:250px;background:#111b30;color:white;padding:25px 15px}
-.logo{text-align:center;margin-bottom:40px}.logo h2{color:#20aee5;font-size:30px;margin:0}.logo p{color:#8b95a7}
-.nav a{display:block;color:#dce3ef;text-decoration:none;padding:15px;border-radius:8px;margin:5px 0}
-.nav a:hover,.nav a.active{background:#243452}
-.main{flex:1;padding:35px}.header{display:flex;justify-content:space-between;align-items:center}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:30px 0}
-.card,.section{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 12px #ddd}
-button{padding:11px 18px;border:0;border-radius:7px;background:#20aee5;color:white;cursor:pointer}
-button.danger{background:#e74c3c}
-input,select,textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:7px;margin:7px 0 15px}
-.modal{display:none;position:fixed;inset:0;background:#0008;align-items:center;justify-content:center}
-.modal-box{background:white;width:500px;padding:30px;border-radius:12px}
-.close{float:right;font-size:25px;cursor:pointer}
-.notice{border:1px solid #ddd;border-radius:10px;padding:20px;margin:15px 0}
-</style>
+    <title>Notices & Services | HMS</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #14213d;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #111b30;
+            color: white;
+            padding: 25px 15px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h2 {
+            color: #20aee5;
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .logo p {
+            color: #8b95a7;
+        }
+
+        .nav a {
+            display: block;
+            color: #dce3ef;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 5px 0;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #243452;
+        }
+
+        .main {
+            flex: 1;
+            padding: 35px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin-bottom: 5px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .card,
+        .section {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ddd;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #20aee5;
+        }
+
+        button {
+            padding: 11px 18px;
+            border: 0;
+            border-radius: 7px;
+            background: #20aee5;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button.danger {
+            background: #e74c3c;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            margin: 7px 0 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-box {
+            background: white;
+            width: 500px;
+            max-width: 90%;
+            padding: 30px;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+
+        .close {
+            float: right;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .notice {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #fff;
+        }
+
+        .notice h2 {
+            margin-top: 0;
+        }
+
+        .notice-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .admin-info {
+            text-align: right;
+        }
+
+        .admin-info b {
+            color: #20aee5;
+        }
+
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                width: 210px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="layout">
 
-<aside class="sidebar">
+    <!-- Sidebar -->
+    <aside class="sidebar">
 
-<div class="logo">
-<h2>HMS</h2>
-<p>Hostel Management</p>
+        <div class="logo">
+            <h2>HMS</h2>
+            <p>Hostel Management</p>
+        </div>
+
+        <div class="nav">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a href="rooms.html">
+                🛏️ Room Allocation
+            </a>
+
+            <a href="students.html">
+                👨‍🎓 Students
+            </a>
+
+            <a href="fees.html">
+                💰 Fee Payment
+            </a>
+
+            <a href="complaints.html">
+                📢 Complaints
+            </a>
+
+            <a href="notices.html" class="active">
+                🔔 Notices & Services
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- Header -->
+        <div class="header">
+
+            <div>
+                <h1>Notices & Services</h1>
+                <p>Manage hostel notices and services</p>
+            </div>
+
+            <div class="admin-info">
+                <b>🔵 Admin</b>
+                <br>
+                <small>Administrator</small>
+            </div>
+
+        </div>
+
+
+        <!-- Summary Cards -->
+        <div class="cards">
+
+            <div class="card">
+                <h2 id="total">0</h2>
+                <p>Total Notices</p>
+            </div>
+
+            <div class="card">
+                <h2 id="urgent">0</h2>
+                <p>Urgent Notices</p>
+            </div>
+
+            <div class="card">
+                <h2 id="services">0</h2>
+                <p>Services</p>
+            </div>
+
+        </div>
+
+
+        <!-- Notices Section -->
+        <div class="section">
+
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:15px;">
+
+                <h2>Notices & Services</h2>
+
+                <button onclick="openModal()">
+                    ＋ Add Notice
+                </button>
+
+            </div>
+
+            <div id="noticeList"></div>
+
+        </div>
+
+    </main>
+
 </div>
 
-<div class="nav">
-<a href="dashboard.html">📊 Dashboard</a>
-<a href="rooms.html">🛏️ Room Allocation</a>
-<a href="students.html">👨‍🎓 Students</a>
-<a href="fees.html">💰 Fee Payment</a>
-<a href="complaints.html">📢 Complaints</a>
-<a href="notices.html" class="active">🔔 Notices & Services</a>
-</div>
 
-</aside>
-
-<main class="main">
-
-<div class="header">
-
-<div>
-<h1>Notices & Services</h1>
-<p>Manage hostel notices and services</p>
-</div>
-
-<div>
-<b>🔵 Admin</b><br>
-<small>Administrator</small>
-</div>
-
-</div>
-
-<div class="cards">
-
-<div class="card">
-<h2 id="total">0</h2>
-<p>Total Notices</p>
-</div>
-
-<div class="card">
-<h2 id="urgent">0</h2>
-<p>Urgent Notices</p>
-</div>
-
-<div class="card">
-<h2 id="services">0</h2>
-<p>Services</p>
-</div>
-
-</div>
-
-<div class="section">
-
-<div style="display:flex;justify-content:space-between;align-items:center">
-
-<h2>Notices & Services</h2>
-
-<button onclick="openModal()">＋ Add Notice</button>
-
-</div>
-
-<div id="noticeList"></div>
-
-</div>
-
-</main>
-</div>
-
+<!-- Add Notice Modal -->
 <div class="modal" id="modal">
 
-<div class="modal-box">
+    <div class="modal-box">
 
-<span class="close" onclick="closeModal()">×</span>
+        <span class="close" onclick="closeModal()">×</span>
 
-<h2>Add Notice / Service</h2>
+        <h2>Add Notice / Service</h2>
 
-<label>Title</label>
+        <label>Title</label>
 
-<input id="title" placeholder="Enter title">
+        <input
+            id="title"
+            type="text"
+            placeholder="Enter title"
+        >
 
-<label>Type</label>
 
-<select id="type">
-<option>Notice</option>
-<option>Service</option>
-</select>
+        <label>Type</label>
 
-<label>Priority</label>
+        <select id="type">
 
-<select id="priority">
-<option>Normal</option>
-<option>Important</option>
-<option>Urgent</option>
-</select>
+            <option value="Notice">
+                Notice
+            </option>
 
-<label>Description</label>
+            <option value="Service">
+                Service
+            </option>
 
-<textarea id="description" rows="5"
-placeholder="Enter notice or service details"></textarea>
+        </select>
 
-<button onclick="addNotice()" style="width:100%">
-Publish
-</button>
+
+        <label>Priority</label>
+
+        <select id="priority">
+
+            <option value="Normal">
+                Normal
+            </option>
+
+            <option value="Important">
+                Important
+            </option>
+
+            <option value="Urgent">
+                Urgent
+            </option>
+
+        </select>
+
+
+        <label>Description</label>
+
+        <textarea
+            id="description"
+            rows="5"
+            placeholder="Enter notice or service details"
+        ></textarea>
+
+
+        <button
+            onclick="addNotice()"
+            style="width:100%;"
+        >
+            Publish
+        </button>
+
+    </div>
 
 </div>
-</div>
+
 
 <script>
 
-let notices=JSON.parse(localStorage.getItem("hms_notices")) || [
+    /* ==============================
+       LOAD NOTICES
+    ============================== */
 
-{
-title:"Water Supply Maintenance",
-type:"Notice",
-priority:"Important",
-description:"Water supply maintenance will be carried out tomorrow from 10 AM to 2 PM.",
-date:new Date().toLocaleDateString()
-},
+    let notices = JSON.parse(
+        localStorage.getItem("hms_notices")
+    ) || [
 
-{
-title:"Hostel Cleaning Service",
-type:"Service",
-priority:"Normal",
-description:"Weekly room and common-area cleaning service is available every Saturday.",
-date:new Date().toLocaleDateString()
-}
+        {
+            title: "Water Supply Maintenance",
+            type: "Notice",
+            priority: "Important",
+            description:
+                "Water supply maintenance will be carried out tomorrow from 10 AM to 2 PM.",
+            date: new Date().toLocaleDateString()
+        },
 
-];
+        {
+            title: "Hostel Cleaning Service",
+            type: "Service",
+            priority: "Normal",
+            description:
+                "Weekly room and common-area cleaning service is available every Saturday.",
+            date: new Date().toLocaleDateString()
+        },
 
-function save(){
+        {
+            title: "Visitor Timing Reminder",
+            type: "Notice",
+            priority: "Urgent",
+            description:
+                "Visitors are not allowed after 8:00 PM. Please follow hostel visitor guidelines.",
+            date: new Date().toLocaleDateString()
+        }
 
-localStorage.setItem(
-"hms_notices",
-JSON.stringify(notices)
-);
+    ];
 
-}
 
-function render(){
+    /* ==============================
+       SAVE DATA
+    ============================== */
 
-let container=document.getElementById("noticeList");
+    function save() {
 
-container.innerHTML="";
+        localStorage.setItem(
+            "hms_notices",
+            JSON.stringify(notices)
+        );
 
-let urgent=0;
-let services=0;
+    }
 
-notices.forEach((n,index)=>{
 
-if(n.priority==="Urgent") urgent++;
+    /* ==============================
+       DISPLAY NOTICES
+    ============================== */
 
-if(n.type==="Service") services++;
+    function render() {
 
-let div=document.createElement("div");
+        const container =
+            document.getElementById("noticeList");
 
-div.className="notice";
+        container.innerHTML = "";
 
-div.innerHTML=`
+        let urgent = 0;
+        let services = 0;
 
-<h2>${n.title}</h2>
 
-<p>
-<b>Type:</b> ${n.type}
-</p>
+        notices.forEach((n, index) => {
 
-<p>
-<b>Priority:</b> ${n.priority}
-</p>
+            if (n.priority === "Urgent") {
+                urgent++;
+            }
 
-<p>
-<b>Date:</b> ${n.date}
-</p>
+            if (n.type === "Service") {
+                services++;
+            }
 
-<p>${n.description}</p>
 
-<button class="danger"
-onclick="deleteNotice(${index})">
-Delete
-</button>
+            const div =
+                document.createElement("div");
 
-`;
+            div.className = "notice";
 
-container.appendChild(div);
 
-});
+            div.innerHTML = `
 
-document.getElementById("total").innerText=notices.length;
-document.getElementById("urgent").innerText=urgent;
-document.getElementById("services").innerText=services;
+                <h2>
+                    ${escapeHTML(n.title)}
+                </h2>
 
-}
+                <div class="notice-meta">
 
-function openModal(){
+                    <span>
+                        <b>Type:</b>
+                        ${escapeHTML(n.type)}
+                    </span>
 
-document.getElementById("modal").style.display="flex";
+                    <span>
+                        <b>Priority:</b>
+                        ${escapeHTML(n.priority)}
+                    </span>
 
-}
+                    <span>
+                        <b>Date:</b>
+                        ${escapeHTML(n.date)}
+                    </span>
 
-function closeModal(){
+                </div>
 
-document.getElementById("modal").style.display="none";
+                <p>
+                    ${escapeHTML(n.description)}
+                </p>
 
-}
+                <button
+                    class="danger"
+                    onclick="deleteNotice(${index})"
+                >
+                    Delete
+                </button>
 
-function addNotice(){
+            `;
 
-let title=document.getElementById("title").value.trim();
+            container.appendChild(div);
 
-let type=document.getElementById("type").value;
+        });
 
-let priority=document.getElementById("priority").value;
 
-let description=document
-.getElementById("description")
-.value.trim();
+        document.getElementById("total").innerText =
+            notices.length;
 
-if(!title || !description){
+        document.getElementById("urgent").innerText =
+            urgent;
 
-alert("Please fill all fields.");
+        document.getElementById("services").innerText =
+            services;
 
-return;
+    }
 
-}
 
-notices.unshift({
+    /* ==============================
+       SECURITY HELPER
+    ============================== */
 
-title:title,
-type:type,
-priority:priority,
-description:description,
-date:new Date().toLocaleDateString()
+    function escapeHTML(text) {
 
-});
+        const div =
+            document.createElement("div");
 
-save();
-render();
+        div.textContent = text;
 
-closeModal();
+        return div.innerHTML;
 
-document.getElementById("title").value="";
-document.getElementById("description").value="";
+    }
 
-alert("Notice published successfully!");
 
-}
+    /* ==============================
+       OPEN MODAL
+    ============================== */
 
-function deleteNotice(index){
+    function openModal() {
 
-if(confirm("Delete this notice?")){
+        document.getElementById("modal")
+            .style.display = "flex";
 
-notices.splice(index,1);
+    }
 
-save();
-render();
 
-}
+    /* ==============================
+       CLOSE MODAL
+    ============================== */
 
-}
+    function closeModal() {
 
-save();
-render();
+        document.getElementById("modal")
+            .style.display = "none";
+
+    }
+
+
+    /* ==============================
+       ADD NOTICE
+    ============================== */
+
+    function addNotice() {
+
+        const title =
+            document.getElementById("title")
+                .value.trim();
+
+        const type =
+            document.getElementById("type")
+                .value;
+
+        const priority =
+            document.getElementById("priority")
+                .value;
+
+        const description =
+            document.getElementById("description")
+                .value.trim();
+
+
+        if (!title || !description) {
+
+            alert(
+                "Please enter the title and description."
+            );
+
+            return;
+
+        }
+
+
+        notices.unshift({
+
+            title: title,
+
+            type: type,
+
+            priority: priority,
+
+            description: description,
+
+            date: new Date().toLocaleDateString()
+
+        });
+
+
+        save();
+
+        render();
+
+        closeModal();
+
+
+        document.getElementById("title")
+            .value = "";
+
+        document.getElementById("description")
+            .value = "";
+
+
+        alert(
+            "Notice published successfully!"
+        );
+
+    }
+
+
+    /* ==============================
+       DELETE NOTICE
+    ============================== */
+
+    function deleteNotice(index) {
+
+        if (
+            confirm(
+                "Are you sure you want to delete this notice?"
+            )
+        ) {
+
+            notices.splice(index, 1);
+
+            save();
+
+            render();
+
+        }
+
+    }
+
+
+    /* ==============================
+       CLOSE MODAL WHEN CLICKING OUTSIDE
+    ============================== */
+
+    document.getElementById("modal")
+        .addEventListener("click", function(event) {
+
+            if (event.target === this) {
+                closeModal();
+            }
+
+        });
+
+
+    /* ==============================
+       INITIAL LOAD
+    ============================== */
+
+    save();
+
+    render();
 
 </script>
 

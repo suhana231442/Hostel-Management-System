@@ -7,7 +7,7 @@ header("Content-Type: application/json");
 $email = "";
 $password = "";
 
-// Get JSON request
+// Get JSON request from frontend
 $input = file_get_contents("php://input");
 
 if (!empty($input)) {
@@ -44,5 +44,4 @@ echo json_encode([
 ]);
 
 exit;
-
 ?>

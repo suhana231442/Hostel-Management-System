@@ -1,15 +1,30 @@
 <?php
+
 require_once("../config/database.php");
 
 $email = "admin@gmail.com";
-$password = password_hash("admin.123", PASSWORD_DEFAULT);
+$password = password_hash("admin123", PASSWORD_DEFAULT);
 
-$stmt = $conn->prepare("UPDATE admins SET password = ? WHERE email = ?");
-$stmt->execute([$password, $email]);
+$stmt = $conn->prepare(
+    "INSERT INTO admins (email, password) VALUES (?, ?)"
+);
 
-if ($stmt->rowCount() > 0) {
-    echo "PASSWORD RESET SUCCESSFULLY";
-} else {
-    echo "Admin not found. Run setup.sql first.";
+try {
+
+    if ($stmt->execute([$email, $password])) {
+
+        echo "Admin account created successfully!";
+
+    } else {
+
+        echo "Failed to create admin account.";
+
+    }
+
+} catch (PDOException $e) {
+
+    echo "Admin may already exist or database error occurred.";
+
 }
+
 ?>

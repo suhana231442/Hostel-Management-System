@@ -1,26 +1,29 @@
 <?php
 
-require_once __DIR__ . "/../config/database.php";
-
 header("Content-Type: application/json");
 
-$data = json_decode(file_get_contents("php://input"), true);
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
-$id = $data["id"] ?? "";
-$title = trim($data["title"] ?? "");
-$description = trim($data["description"] ?? "");
-
-if (!$id || !$title || !$description) {
-
-    echo json_encode([
-        "success" => false,
-        "message" => "Required fields missing"
-    ]);
-
-    exit;
-}
+require_once __DIR__ . "/../config/database.php";
 
 try {
+
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $id = $data["id"] ?? "";
+    $title = trim($data["title"] ?? "");
+    $description = trim($data["description"] ?? "");
+
+    if (!$id || !$title || !$description) {
+
+        echo json_encode([
+            "success" => false,
+            "message" => "Required fields missing"
+        ]);
+
+        exit;
+    }
 
     $stmt = $pdo->prepare("
         UPDATE notices
@@ -43,7 +46,17 @@ try {
 
     echo json_encode([
         "success" => false,
+        "message" => "Database Error: " . $e->getMessage()
+    ]);
+
+} catch (Exception $e) {
+
+    echo json_encode([
+        "success" => false,
         "message" => $e->getMessage()
     ]);
 }
+
+exit;
+
 ?>

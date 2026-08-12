@@ -1,727 +1,656 @@
-const API = "..";
+// ==========================================
+// HOSTEL MANAGEMENT SYSTEM
+// MAIN JAVASCRIPT
+// ==========================================
 
-// =====================================================
-// COMMON POST FUNCTION
-// =====================================================
+const API = "/hostel-management-system/backend";
 
-function postJSON(url, data) {
-    return fetch(url, {
-        method: "POST",
+// ==========================================
+// COMMON REQUEST FUNCTION
+// ==========================================
+
+async function sendRequest(url, data = null) {
+    const options = {
+        method: data ? "POST" : "GET",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify(data)
-    }).then(async function (response) {
-        const text = await response.text();
-
-        try {
-            return JSON.parse(text);
-        } catch (e) {
-            throw new Error(text || "Server error");
         }
-    });
+    };
+
+    if (data) {
+        options.body = JSON.stringify(data);
+    }
+
+    const response = await fetch(url, options);
+    const text = await response.text();
+
+    try {
+        return JSON.parse(text);
+    } catch (error) {
+        console.error("Server response:", text);
+        throw new Error(
+            text || "Server returned an invalid response"
+        );
+    }
 }
 
-
-// =====================================================
-// LOGIN
-// =====================================================
+// ==========================================
+// ADMIN LOGIN
+// ==========================================
 
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
-
-    loginForm.addEventListener("submit", function (e) {
-
+    loginForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        postJSON("../auth/login.php", {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value
-        })
-        .then(function (r) {
+        const emailElement = document.getElementById("email");
+        const passwordElement = document.getElementById("password");
 
-            if (r.success) {
-                location.href = "pages/dashboard.html";
+        if (!emailElement || !passwordElement) {
+            alert("Login fields are missing.");
+            return;
+        }
+
+        const email = emailElement.value.trim();
+        const password = passwordElement.value;
+
+        if (!email || !password) {
+            alert("Please enter email and password.");
+            return;
+        }
+
+        try {
+            const result = await sendRequest(
+                API + "/auth/login.php",
+                {
+                    email: email,
+                    password: password
+                }
+            );
+
+            if (result.success) {
+                window.location.href = "pages/dashboard.html";
             } else {
-                alert(r.message);
+                alert(result.message || "Login failed.");
             }
 
-        })
-        .catch(function (e) {
-            alert("Login error: " + e.message);
-        });
+        } catch (error) {
+            console.error("Login error:", error);
 
+            alert(
+                "Login connection error: " +
+                error.message
+            );
+        }
     });
 }
 
+// ==========================================
+// STUDENT REGISTRATION
+// ==========================================
 
-// =====================================================
-// STUDENTS
-// =====================================================
-
-const studentForm = document.getElementById("studentForm");
-
-function loadStudents() {
-
-    const tbody = document.querySelector("#studentsTable tbody");
-
-    if (!tbody) {
-        return;
-    }
-
-    fetch("../students/read.php", {
-        credentials: "include"
-    })
-    .then(function (r) {
-        return r.json();
-    })
-    .then(function (d) {
-
-        tbody.innerHTML = "";
-
-        (d.students || []).forEach(function (s) {
-
-            tbody.innerHTML +=
-                "<tr>" +
-                "<td>" + (s.student_id || "") + "</td>" +
-                "<td>" + (s.full_name || "") + "</td>" +
-                "<td>" + (s.course || "") + "</td>" +
-                "<td>" + (s.semester || "") + "</td>" +
-                "<td>" + (s.phone || "") + "</td>" +
-                "</tr>";
-
-        });
-
-    })
-    .catch(function (e) {
-        console.log("Student loading error:", e);
-    });
-}
-
+const studentForm =
+    document.getElementById("studentForm");
 
 if (studentForm) {
+    studentForm.addEventListener(
+        "submit",
+        async function (e) {
+            e.preventDefault();
 
-    studentForm.addEventListener("submit", function (e) {
+            function getValue(id) {
+                const element =
+                    document.getElementById(id);
 
-        e.preventDefault();
-
-        const ids = [
-            "student_id",
-            "full_name",
-            "date_of_birth",
-            "gender",
-            "email",
-            "phone",
-            "course",
-            "semester",
-            "guardian_name",
-            "guardian_phone",
-            "registration_date",
-            "status"
-        ];
-
-        const data = {};
-
-        ids.forEach(function (id) {
-
-            const element = document.getElementById(id);
-
-            data[id] = element ? element.value : "";
-
-        });
-
-        postJSON("../students/create.php", data)
-
-        .then(function (r) {
-
-            alert(r.message);
-
-            if (r.success) {
-
-                studentForm.reset();
-
-                loadStudents();
-
+                return element
+                    ? element.value.trim()
+                    : "";
             }
 
-        })
+            const data = {
+                student_id: getValue("student_id"),
+                full_name: getValue("full_name"),
+                date_of_birth: getValue("date_of_birth"),
+                gender: getValue("gender"),
+                email: getValue("email"),
+                phone: getValue("phone"),
+                course: getValue("course"),
+                semester: getValue("semester"),
+                guardian_name: getValue("guardian_name"),
+                guardian_phone: getValue("guardian_phone"),
+                registration_date:
+                    getValue("registration_date"),
+                status:
+                    getValue("status") || "Active"
+            };
 
-        .catch(function (e) {
+            try {
+                const result = await sendRequest(
+                    API + "/students/create.php",
+                    data
+                );
 
-            alert("Registration error: " + e.message);
+                alert(
+                    result.message ||
+                    "Student registration completed."
+                );
 
-        });
+                if (result.success) {
+                    studentForm.reset();
+                    loadStudents();
+                }
 
-    });
+            } catch (error) {
+                console.error(
+                    "Student registration error:",
+                    error
+                );
 
-    loadStudents();
+                alert(
+                    "Student registration connection error: " +
+                    error.message
+                );
+            }
+        }
+    );
 }
 
+// ==========================================
+// LOAD STUDENTS
+// ==========================================
 
-// =====================================================
-// ROOMS
-// =====================================================
+async function loadStudents() {
+    const table =
+        document.querySelector(
+            "#studentsTable tbody"
+        );
 
-function loadRooms() {
-
-    const sel = document.getElementById("room_number");
-
-    if (!sel) {
+    if (!table) {
         return;
     }
 
-    fetch("../rooms/read.php", {
-        credentials: "include"
-    })
-    .then(function (r) {
-        return r.json();
-    })
-    .then(function (d) {
+    try {
+        const result = await sendRequest(
+            API + "/students/read.php"
+        );
 
-        sel.innerHTML =
-            '<option value="">Select a room</option>';
+        table.innerHTML = "";
 
-        (d.rooms || []).forEach(function (x) {
+        if (
+            !result.success ||
+            !Array.isArray(result.students)
+        ) {
+            return;
+        }
 
-            if (
-                Number(x.occupied_beds) <
-                Number(x.capacity)
-            ) {
+        result.students.forEach(function (student) {
+            const row =
+                document.createElement("tr");
 
-                sel.innerHTML +=
-                    '<option value="' +
-                    x.id +
-                    '">' +
-                    "Room " +
-                    x.room_number +
-                    " (" +
-                    x.occupied_beds +
-                    "/" +
-                    x.capacity +
-                    ")" +
-                    "</option>";
+            row.innerHTML = `
+                <td>${student.student_id || ""}</td>
+                <td>${student.full_name || ""}</td>
+                <td>${student.course || ""}</td>
+                <td>${student.semester || ""}</td>
+                <td>${student.phone || ""}</td>
+            `;
 
-            }
-
+            table.appendChild(row);
         });
 
-    })
-    .catch(function (e) {
-        console.log("Room loading error:", e);
-    });
+    } catch (error) {
+        console.error(
+            "Student loading error:",
+            error
+        );
+    }
 }
 
+loadStudents();
+
+// ==========================================
+// ROOM ALLOCATION
+// ==========================================
 
 const roomForm =
-    document.getElementById("roomAllocationForm");
+    document.getElementById(
+        "roomAllocationForm"
+    );
 
-if (roomForm) {
+async function loadRooms() {
+    const select =
+        document.getElementById("room_number");
 
-    roomForm.addEventListener("submit", function (e) {
+    if (!select) {
+        return;
+    }
 
-        e.preventDefault();
+    try {
+        const result = await sendRequest(
+            API + "/rooms/read.php"
+        );
 
-        postJSON("../rooms/allocate.php", {
+        select.innerHTML =
+            '<option value="">Select Room</option>';
 
-            student_id:
-                document.getElementById("student_id").value.trim(),
+        if (
+            !result.success ||
+            !Array.isArray(result.rooms)
+        ) {
+            return;
+        }
 
-            room_id:
-                document.getElementById("room_number").value
+        result.rooms.forEach(function (room) {
+            const occupied =
+                Number(
+                    room.occupied_beds ??
+                    room.occupied ??
+                    0
+                );
 
-        })
-        .then(function (r) {
+            const capacity =
+                Number(room.capacity || 0);
 
-            alert(r.message);
+            if (occupied < capacity) {
+                const option =
+                    document.createElement("option");
 
-            if (r.success) {
+                option.value = room.id;
 
-                roomForm.reset();
+                option.textContent =
+                    "Room " +
+                    (room.room_number || room.id) +
+                    " - " +
+                    (room.room_type || "") +
+                    " (" +
+                    occupied +
+                    "/" +
+                    capacity +
+                    ")";
 
-                closeRoomForm();
-
-                loadRooms();
-
+                select.appendChild(option);
             }
-
-        })
-        .catch(function (e) {
-
-            alert("Room error: " + e.message);
-
         });
 
-    });
+    } catch (error) {
+        console.error(
+            "Room loading error:",
+            error
+        );
+    }
+}
+
+loadRooms();
+
+if (roomForm) {
+    roomForm.addEventListener(
+        "submit",
+        async function (e) {
+            e.preventDefault();
+
+            const studentElement =
+                document.getElementById(
+                    "student_id"
+                );
+
+            const roomElement =
+                document.getElementById(
+                    "room_number"
+                );
+
+            if (!studentElement || !roomElement) {
+                alert(
+                    "Student ID or Room Number field is missing."
+                );
+                return;
+            }
+
+            const studentId =
+                studentElement.value.trim();
+
+            const roomId =
+                roomElement.value;
+
+            if (!studentId) {
+                alert("Please enter Student ID.");
+                return;
+            }
+
+            if (!roomId) {
+                alert("Please select a room.");
+                return;
+            }
+
+            const data = {
+                student_id: studentId,
+                room_id: roomId
+            };
+
+            try {
+                const result = await sendRequest(
+                    API + "/rooms/allocate.php",
+                    data
+                );
+
+                alert(
+                    result.message ||
+                    "Room allocation completed."
+                );
+
+                if (result.success) {
+                    roomForm.reset();
+
+                    closeRoomForm();
+
+                    loadRooms();
+                }
+
+            } catch (error) {
+                console.error(
+                    "Room allocation error:",
+                    error
+                );
+
+                alert(
+                    "Room allocation connection error: " +
+                    error.message
+                );
+            }
+        }
+    );
+}
+
+// ==========================================
+// ROOM MODAL
+// ==========================================
+
+function openRoomForm() {
+    const modal =
+        document.getElementById("roomModal");
+
+    if (modal) {
+        modal.style.display = "flex";
+    }
 
     loadRooms();
 }
 
-
-function openRoomForm() {
-
-    const x = document.getElementById("roomModal");
-
-    if (x) {
-        x.style.display = "flex";
-    }
-}
-
-
 function closeRoomForm() {
+    const modal =
+        document.getElementById("roomModal");
 
-    const x = document.getElementById("roomModal");
-
-    if (x) {
-        x.style.display = "none";
+    if (modal) {
+        modal.style.display = "none";
     }
 }
 
-
-// =====================================================
-// FEES
-// =====================================================
+// ==========================================
+// FEE PAYMENT
+// ==========================================
 
 const paymentForm =
     document.getElementById("paymentForm");
 
 if (paymentForm) {
+    paymentForm.addEventListener(
+        "submit",
+        async function (e) {
+            e.preventDefault();
 
-    paymentForm.addEventListener("submit", function (e) {
+            function getFormValue(id) {
+                const element =
+                    document.getElementById(id);
 
-        e.preventDefault();
-
-        const inputs =
-            paymentForm.querySelectorAll("input");
-
-        const select =
-            paymentForm.querySelector("select");
-
-        postJSON("../fees/create.php", {
-
-            student_id:
-                inputs[1].value.trim(),
-
-            amount:
-                inputs[2].value,
-
-            fee_type:
-                select.value,
-
-            payment_date:
-                inputs[3].value,
-
-            payment_method:
-                "Cash",
-
-            status:
-                "Paid",
-
-            transaction_reference:
-                ""
-
-        })
-        .then(function (r) {
-
-            alert(r.message);
-
-            if (r.success) {
-
-                paymentForm.reset();
-
-                closePaymentForm();
-
-                loadFees();
-
+                return element
+                    ? element.value.trim()
+                    : "";
             }
 
-        })
-        .catch(function (e) {
+            const data = {
+                student_id:
+                    getFormValue("student_id"),
 
-            alert("Payment error: " + e.message);
+                amount:
+                    getFormValue("amount"),
 
-        });
+                fee_type:
+                    getFormValue("fee_type"),
 
-    });
+                payment_date:
+                    getFormValue("payment_date") ||
+                    new Date()
+                        .toISOString()
+                        .split("T")[0],
+
+                payment_method:
+                    getFormValue("payment_method") ||
+                    "Cash",
+
+                status:
+                    getFormValue("status") ||
+                    "Paid",
+
+                transaction_reference:
+                    getFormValue(
+                        "transaction_reference"
+                    ) || null
+            };
+
+            try {
+                const result = await sendRequest(
+                    API + "/fees/create.php",
+                    data
+                );
+
+                alert(
+                    result.message ||
+                    "Fee payment completed."
+                );
+
+                if (result.success) {
+                    paymentForm.reset();
+
+                    closePaymentForm();
+
+                    loadFees();
+                }
+
+            } catch (error) {
+                console.error(
+                    "Fee payment error:",
+                    error
+                );
+
+                alert(
+                    "Fee payment connection error: " +
+                    error.message
+                );
+            }
+        }
+    );
 }
 
-
-function closePaymentForm() {
-
-    const x =
-        document.getElementById("paymentModal");
-
-    if (x) {
-        x.style.display = "none";
-    }
-}
-
+// ==========================================
+// PAYMENT MODAL
+// ==========================================
 
 function openPaymentForm() {
+    const modal =
+        document.getElementById(
+            "paymentModal"
+        );
 
-    const x =
-        document.getElementById("paymentModal");
-
-    if (x) {
-        x.style.display = "flex";
+    if (modal) {
+        modal.style.display = "flex";
     }
 }
 
+function closePaymentForm() {
+    const modal =
+        document.getElementById(
+            "paymentModal"
+        );
 
-function loadFees() {
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
 
+// ==========================================
+// LOAD FEES
+// ==========================================
+
+async function loadFees() {
     const table =
-        document.querySelector("#feesTable tbody");
+        document.querySelector(
+            "#feesTable tbody"
+        );
 
     if (!table) {
         return;
     }
 
-    fetch("../fees/read.php", {
-        credentials: "include"
-    })
-    .then(function (r) {
-        return r.json();
-    })
-    .then(function (d) {
+    try {
+        const result = await sendRequest(
+            API + "/fees/read.php"
+        );
 
         table.innerHTML = "";
 
-        (d.payments || []).forEach(function (p) {
+        if (
+            !result.success ||
+            !Array.isArray(result.payments)
+        ) {
+            return;
+        }
 
-            table.innerHTML +=
-                "<tr>" +
-                "<td>" + (p.full_name || "") + "</td>" +
-                "<td>" + (p.amount || "") + "</td>" +
-                "<td>" + (p.fee_type || "") + "</td>" +
-                "<td>" + (p.payment_date || "") + "</td>" +
-                "<td>" + (p.status || "") + "</td>" +
-                "</tr>";
+        result.payments.forEach(function (payment) {
+            const row =
+                document.createElement("tr");
 
+            row.innerHTML = `
+                <td>#PAY${payment.id || ""}</td>
+                <td>${payment.full_name || ""}</td>
+                <td>${payment.fee_type || ""}</td>
+                <td>Rs. ${payment.amount || ""}</td>
+                <td>${payment.payment_date || "-"}</td>
+                <td>${payment.status || ""}</td>
+                <td>
+                    <button
+                        type="button"
+                        class="view-btn">
+                        View
+                    </button>
+                </td>
+            `;
+
+            table.appendChild(row);
         });
 
-    })
-    .catch(function () {});
+    } catch (error) {
+        console.error(
+            "Fee loading error:",
+            error
+        );
+    }
 }
 
 loadFees();
 
-
-// =====================================================
+// ==========================================
 // COMPLAINTS
-// =====================================================
+// ==========================================
 
 const complaintForm =
-    document.getElementById("complaintForm");
+    document.getElementById(
+        "complaintForm"
+    );
 
 if (complaintForm) {
+    complaintForm.addEventListener(
+        "submit",
+        async function (e) {
+            e.preventDefault();
 
-    complaintForm.addEventListener("submit", function (e) {
+            function getFormValue(id) {
+                const element =
+                    document.getElementById(id);
 
-        e.preventDefault();
-
-        const inputs =
-            complaintForm.querySelectorAll("input");
-
-        const sel =
-            complaintForm.querySelector("select");
-
-        const ta =
-            complaintForm.querySelector("textarea");
-
-        postJSON("../complaints/create.php", {
-
-            student_id:
-                inputs[1].value.trim(),
-
-            complaint_title:
-                inputs[2].value.trim(),
-
-            complaint_description:
-                ta.value,
-
-            category:
-                sel.value
-
-        })
-        .then(function (r) {
-
-            alert(r.message);
-
-            if (r.success) {
-
-                complaintForm.reset();
-
-                closeComplaintForm();
-
-                loadComplaints();
-
+                return element
+                    ? element.value.trim()
+                    : "";
             }
 
-        })
-        .catch(function (e) {
+            const data = {
+                student_id:
+                    getFormValue("student_id"),
 
-            alert("Complaint error: " + e.message);
+                complaint_title:
+                    getFormValue(
+                        "complaint_title"
+                    ),
 
-        });
+                category:
+                    getFormValue("category"),
 
-    });
+                complaint_description:
+                    getFormValue(
+                        "complaint_description"
+                    )
+            };
+
+            try {
+                const result = await sendRequest(
+                    API + "/complaints/create.php",
+                    data
+                );
+
+                alert(
+                    result.message ||
+                    "Complaint submitted."
+                );
+
+                if (result.success) {
+                    complaintForm.reset();
+
+                    closeComplaintForm();
+
+                    loadComplaints();
+                }
+
+            } catch (error) {
+                console.error(
+                    "Complaint error:",
+                    error
+                );
+
+                alert(
+                    "Complaint connection error: " +
+                    error.message
+                );
+            }
+        }
+    );
 }
 
-
-function closeComplaintForm() {
-
-    const x =
-        document.getElementById("complaintModal");
-
-    if (x) {
-        x.style.display = "none";
-    }
-}
-
+// ==========================================
+// COMPLAINT MODAL
+// ==========================================
 
 function openComplaintForm() {
-
-    const x =
-        document.getElementById("complaintModal");
-
-    if (x) {
-        x.style.display = "flex";
-    }
-}
-
-
-function loadComplaints() {
-
-    const table =
-        document.querySelector("#complaintsTable tbody");
-
-    if (!table) {
-        return;
-    }
-
-    fetch("../complaints/read.php", {
-        credentials: "include"
-    })
-    .then(function (r) {
-        return r.json();
-    })
-    .then(function (d) {
-
-        table.innerHTML = "";
-
-        (d.complaints || []).forEach(function (c) {
-
-            table.innerHTML +=
-                "<tr>" +
-                "<td>" + (c.full_name || "") + "</td>" +
-                "<td>" + (c.complaint_title || "") + "</td>" +
-                "<td>" + (c.category || "") + "</td>" +
-                "<td>" + (c.status || "") + "</td>" +
-                "</tr>";
-
-        });
-
-    })
-    .catch(function () {});
-}
-
-loadComplaints();
-
-
-// =====================================================
-// NOTICES
-// =====================================================
-
-const noticeForm =
-    document.getElementById("noticeForm");
-
-if (noticeForm) {
-
-    noticeForm.addEventListener("submit", function (e) {
-
-        e.preventDefault();
-
-        const inp =
-            noticeForm.querySelector("input");
-
-        const sels =
-            noticeForm.querySelectorAll("select");
-
-        const ta =
-            noticeForm.querySelector("textarea");
-
-        postJSON("../notices/create.php", {
-
-            title:
-                inp.value.trim(),
-
-            description:
-                ta.value,
-
-            category:
-                sels[0].value,
-
-            notice_type:
-                "General",
-
-            priority:
-                sels[1].value,
-
-            expiry_date:
-                null,
-
-            status:
-                "Active"
-
-        })
-        .then(function (r) {
-
-            alert(r.message);
-
-            if (r.success) {
-
-                noticeForm.reset();
-
-                closeNoticeForm();
-
-                loadNotices();
-
-            }
-
-        })
-        .catch(function (e) {
-
-            alert("Notice error: " + e.message);
-
-        });
-
-    });
-}
-
-
-function closeNoticeForm() {
-
-    const x =
-        document.getElementById("noticeModal");
-
-    if (x) {
-        x.style.display = "none";
-    }
-}
-
-
-function openNoticeForm() {
-
-    const x =
-        document.getElementById("noticeModal");
-
-    if (x) {
-        x.style.display = "flex";
-    }
-}
-
-
-function loadNotices() {
-
-    const box =
-        document.querySelector("#noticesTable tbody");
-
-    if (!box) {
-        return;
-    }
-
-    fetch("../notices/read.php", {
-        credentials: "include"
-    })
-    .then(function (r) {
-        return r.json();
-    })
-    .then(function (d) {
-
-        box.innerHTML = "";
-
-        (d.notices || []).forEach(function (n) {
-
-            box.innerHTML +=
-                "<tr>" +
-                "<td>" + (n.title || "") + "</td>" +
-                "<td>" + (n.category || "") + "</td>" +
-                "<td>" + (n.priority || "") + "</td>" +
-                "<td>" + (n.status || "") + "</td>" +
-                "</tr>";
-
-        });
-
-    })
-    .catch(function () {});
-}
-
-loadNotices();
-
-
-// =====================================================
-// DASHBOARD
-// =====================================================
-
-function loadDashboardData() {
-
-    const el =
-        document.getElementById("totalStudents");
-
-    if (!el) {
-        return;
-    }
-
-    fetch("../dashboard/dashboard_data.php", {
-        credentials: "include"
-    })
-    .then(function (r) {
-        return r.json();
-    })
-    .then(function (d) {
-
-        if (d.success) {
-
-            el.textContent =
-                d.total_students;
-
-            const rooms =
-                document.getElementById("totalRooms");
-
-            if (rooms) {
-                rooms.textContent =
-                    d.total_rooms;
-            }
-
-            const fees =
-                document.getElementById("pendingFees");
-
-            if (fees) {
-                fees.textContent =
-                    d.pending_fees;
-            }
-
-            const complaints =
-                document.getElementById("pendingComplaints");
-
-            if (complaints) {
-                complaints.textContent =
-                    d.pending_complaints;
-            }
-
-        }
-
-    })
-    .catch(function (e) {
-
-        console.log(
-            "Dashboard:",
-            e
+    const modal =
+        document.getElementById(
+            "complaintModal"
         );
 
-    });
+    if (modal) {
+        modal.style.display = "flex";
+    }
 }
 
-loadDashboardData();
+function closeComplaintForm() {
+    const modal =
+        document.getElementById (
+            "complaintModal")}

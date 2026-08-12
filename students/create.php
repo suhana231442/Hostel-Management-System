@@ -43,8 +43,7 @@ try {
         throw new Exception("Please fill all required fields.");
     }
 
-    /* Check duplicate Student ID */
-
+    // Check duplicate Student ID
     $check = $pdo->prepare(
         "SELECT student_id FROM students WHERE student_id = ?"
     );
@@ -55,8 +54,7 @@ try {
         throw new Exception("Student ID already exists.");
     }
 
-    /* Insert student */
-
+    // Insert student
     $sql = "INSERT INTO students
     (
         student_id,
@@ -113,5 +111,4 @@ try {
         "message" => $e->getMessage()
     ]);
 }
-
 ?>

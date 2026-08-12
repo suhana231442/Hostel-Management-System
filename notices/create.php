@@ -2,25 +2,32 @@
 
 header("Content-Type: application/json");
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 require_once __DIR__ . "/../config/database.php";
 
-$data = json_decode(file_get_contents("php://input"), true);
-
-$title = $data["title"] ?? "";
-$description = $data["description"] ?? "";
-$notice_date = $data["notice_date"] ?? date("Y-m-d");
-
-if ($title == "" || $description == "") {
-
-    echo json_encode([
-        "success" => false,
-        "message" => "Title and description are required"
-    ]);
-
-    exit;
-}
-
 try {
+
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!$data) {
+        throw new Exception("No data received.");
+    }
+
+    $title = $data["title"] ?? "";
+    $description = $data["description"] ?? "";
+    $notice_date = $data["notice_date"] ?? date("Y-m-d");
+
+    if ($title == "" || $description == "") {
+
+        echo json_encode([
+            "success" => false,
+            "message" => "Title and description are required"
+        ]);
+
+        exit;
+    }
 
     $stmt = $pdo->prepare("
         INSERT INTO notices
@@ -39,6 +46,13 @@ try {
         "message" => "Notice added successfully"
     ]);
 
+} catch (PDOException $e) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Database Error: " . $e->getMessage()
+    ]);
+
 } catch (Exception $e) {
 
     echo json_encode([
@@ -46,4 +60,7 @@ try {
         "message" => $e->getMessage()
     ]);
 }
+
+exit;
+
 ?>

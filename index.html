@@ -8,7 +8,6 @@
     <title>HMS | Admin Login</title>
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -18,15 +17,12 @@
 
         body {
             min-height: 100vh;
-            background:
-                linear-gradient(135deg, #0f172a, #1e3a5f, #2563eb);
+            background: linear-gradient(135deg, #0f172a, #1e3a5f, #2563eb);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
         }
-
-        /* Background circles */
 
         body::before,
         body::after {
@@ -53,8 +49,6 @@
             right: -160px;
         }
 
-        /* Main card */
-
         .login-container {
             width: 100%;
             max-width: 430px;
@@ -70,8 +64,6 @@
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
             text-align: center;
         }
-
-        /* Logo */
 
         .logo-box {
             width: 78px;
@@ -103,8 +95,6 @@
             margin-bottom: 30px;
         }
 
-        /* Form */
-
         .form-group {
             text-align: left;
             margin-bottom: 20px;
@@ -118,7 +108,8 @@
             margin-bottom: 8px;
         }
 
-        input {
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
             padding: 14px 15px;
             border: 1px solid #cbd5e1;
@@ -134,8 +125,6 @@
             background: white;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
-
-        /* Login button */
 
         .login-btn {
             width: 100%;
@@ -160,6 +149,12 @@
             transform: translateY(0);
         }
 
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .demo {
             margin-top: 22px;
             padding: 12px;
@@ -176,6 +171,7 @@
         #loginMessage {
             margin-top: 15px;
             font-size: 14px;
+            min-height: 20px;
         }
 
         .footer {
@@ -185,16 +181,12 @@
         }
 
         @media (max-width: 500px) {
-
             .login-card {
                 padding: 32px 25px;
             }
-
         }
-
     </style>
 </head>
-
 
 <body>
 
@@ -212,7 +204,6 @@
                 Admin Portal · Secure Management Dashboard
             </p>
 
-
             <form id="loginForm">
 
                 <div class="form-group">
@@ -224,13 +215,13 @@
                     <input
                         type="email"
                         id="email"
+                        name="email"
                         placeholder="Enter admin email"
                         autocomplete="username"
                         required
                     >
 
                 </div>
-
 
                 <div class="form-group">
 
@@ -241,13 +232,13 @@
                     <input
                         type="password"
                         id="password"
+                        name="password"
                         placeholder="Enter password"
                         autocomplete="current-password"
                         required
                     >
 
                 </div>
-
 
                 <button
                     type="submit"
@@ -256,109 +247,135 @@
                     Login to Dashboard
                 </button>
 
-
                 <p id="loginMessage"></p>
 
             </form>
 
-
             <div class="demo">
-
                 Demo Login:<br>
-
                 <strong>admin@gmail.com</strong>
                 /
                 <strong>admin123</strong>
-
             </div>
 
-
             <div class="footer">
-
                 © 2026 Hostel Management System
-
             </div>
 
         </div>
 
     </div>
 
-
     <script>
-
-        /*
-         * SIMPLE DEMO LOGIN
-         *
-         * No PHP authentication is used here.
-         * This keeps the project working reliably
-         * during local demonstration.
-         */
 
         document
             .getElementById("loginForm")
-            .addEventListener("submit", function(e) {
+            .addEventListener("submit", async function (e) {
 
                 e.preventDefault();
 
                 const email =
-                    document.getElementById("email")
-                    .value
-                    .trim();
+                    document.getElementById("email").value.trim();
 
                 const password =
-                    document.getElementById("password")
-                    .value
-                    .trim();
+                    document.getElementById("password").value;
 
                 const message =
                     document.getElementById("loginMessage");
 
+                const button =
+                    document.querySelector(".login-btn");
 
-                /*
-                 * Login credentials
-                 */
 
-                if (
-                    email === "admin@gmail.com" &&
-                    password === "admin123"
-                ) {
+                message.textContent = "Logging in...";
+                message.style.color = "#2563eb";
 
-                    sessionStorage.setItem(
-                        "adminLoggedIn",
-                        "true"
+                button.disabled = true;
+
+
+                try {
+
+                    const response = await fetch(
+                        "auth/login.php",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email: email,
+                                password: password
+                            })
+                        }
                     );
 
-                    sessionStorage.setItem(
-                        "adminEmail",
-                        email
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Server returned HTTP " + response.status
+                        );
+
+                    }
+
+
+                    const data = await response.json();
+
+
+                    if (data.success) {
+
+                        message.textContent =
+                            "Login successful! Opening dashboard...";
+
+                        message.style.color = "green";
+
+
+                        /*
+                         * IMPORTANT:
+                         * Dashboard opens in the SAME browser tab.
+                         *
+                         * Change this path only if your dashboard
+                         * is located somewhere else.
+                         */
+
+                        setTimeout(function () {
+
+                            window.location.href =
+                                "pages/dashboard.html";
+
+                        }, 700);
+
+
+                    } else {
+
+                        message.textContent =
+                            data.message ||
+                            "Invalid email or password.";
+
+                        message.style.color = "red";
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Login Error:",
+                        error
                     );
 
-                    sessionStorage.setItem(
-                        "adminName",
-                        "Administrator"
-                    );
+
+                    message.textContent =
+                        "Unable to connect to the server.";
+
+                    message.style.color = "red";
 
 
-                    message.style.color = "#16a34a";
+                } finally {
 
-                    message.innerText =
-                        "Login successful! Opening dashboard...";
-
-
-                    setTimeout(function() {
-
-                        window.location.href =
-                            "/pages/dashboard.html";
-
-                    }, 500);
-
-
-                } else {
-
-                    message.style.color = "#dc2626";
-
-                    message.innerText =
-                        "Invalid email or password.";
+                    button.disabled = false;
 
                 }
 

@@ -1,4 +1,3 @@
-```php
 <?php
 
 header("Content-Type: application/json");
@@ -17,12 +16,10 @@ try {
         ->query("SELECT COUNT(*) FROM students")
         ->fetchColumn();
 
-
     // Total rooms
     $totalRooms = $pdo
         ->query("SELECT COUNT(*) FROM rooms")
         ->fetchColumn();
-
 
     // Occupied rooms
     $occupiedRooms = $pdo
@@ -33,7 +30,6 @@ try {
         ")
         ->fetchColumn();
 
-
     // Available rooms
     $availableRooms = $pdo
         ->query("
@@ -42,7 +38,6 @@ try {
             WHERE occupied_beds < capacity
         ")
         ->fetchColumn();
-
 
     // Pending fees
     $pendingFees = $pdo
@@ -53,7 +48,6 @@ try {
         ")
         ->fetchColumn();
 
-
     // Pending complaints
     $pendingComplaints = $pdo
         ->query("
@@ -62,7 +56,6 @@ try {
             WHERE status = 'Pending'
         ")
         ->fetchColumn();
-
 
     // Recent notices
     $recentNotices = $pdo
@@ -74,41 +67,24 @@ try {
         ")
         ->fetchAll(PDO::FETCH_ASSOC);
 
-
     echo json_encode([
-
         "success" => true,
-
         "total_students" => (int)$totalStudents,
-
         "total_rooms" => (int)$totalRooms,
-
         "occupied_rooms" => (int)$occupiedRooms,
-
         "available_rooms" => (int)$availableRooms,
-
         "pending_fees" => (int)$pendingFees,
-
         "pending_complaints" => (int)$pendingComplaints,
-
         "recent_notices" => $recentNotices
-
     ]);
-
 
 } catch (PDOException $e) {
 
     echo json_encode([
-
         "success" => false,
-
         "message" => "Dashboard database error",
-
         "error" => $e->getMessage()
-
     ]);
-
 }
 
 ?>
-```

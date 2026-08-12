@@ -6,11 +6,15 @@ require_once __DIR__ . "/../config/database.php";
 
 try {
 
-    $stmt = $pdo->query("SELECT * FROM rooms ORDER BY room_number");
+    $stmt = $pdo->query(
+        "SELECT * FROM rooms ORDER BY room_number"
+    );
+
+    $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode([
         "success" => true,
-        "data" => $stmt->fetchAll(PDO::FETCH_ASSOC)
+        "data" => $rooms
     ]);
 
 } catch (Exception $e) {
@@ -21,4 +25,5 @@ try {
         "message" => $e->getMessage()
     ]);
 }
+
 ?>
