@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Hostel Management System</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <div class="logo">
+            <h2>HMS</h2>
+            <p>Hostel Management</p>
+        </div>
+
+        <ul class="menu">
+
+            <li class="active">
+                <a href="dashboard.html">📊 Dashboard</a>
+            </li>
+
+            <li>
+                <a href="rooms.html">🛏️ Room Allocation</a>
+            </li>
+
+            <li>
+                <a href="students.html">👨‍🎓 Students</a>
+            </li>
+
+            <li>
+                <a href="fees.html">💰 Fee Payment</a>
+            </li>
+
+            <li>
+                <a href="complaints.html">📢 Complaints</a>
+            </li>
+            
+            <li>
+                        
+                <a href="notices.html">🔔 Notices & Services</a>
+
+            </li>
+
+           
+        </ul>
+
+        <div class="logout">
+            <a href="../index.html">🚪 Logout</a>
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Top Bar -->
+        <div class="topbar">
+
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Welcome back, Admin 👋</p>
+            </div>
+
+            <div class="admin-profile">
+                <div class="profile-icon">A</div>
+                <div>
+                    <strong>Admin</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+
+            <div class="card">
+                <div class="card-icon blue">👨‍🎓</div>
+                <div>
+                    <h3 id="totalStudents">0</h3>
+                    <p>Total Students</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon green">🛏️</div>
+                <div>
+                    <h3 id="totalRooms">0</h3>
+                    <p>Total Rooms</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon orange">💰</div>
+                <div>
+                    <h3 id="pendingFees">0</h3>
+                    <p>Pending Fees</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon red">📢</div>
+                <div>
+                    <h3 id="pendingComplaints">0</h3>
+                    <p>Pending Complaints</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Dashboard Sections -->
+        <div class="dashboard-sections">
+
+            <!-- Recent Activities -->
+            <div class="section-box">
+
+                <div class="section-header">
+                    <h2>Recent Activities</h2>
+                    <button onclick="showMessage()">View All</button>
+                </div>
+
+                <div class="activity">
+                    <span class="activity-icon">👨‍🎓</span>
+                    <div>
+                        <strong>New student registered</strong>
+                        <p>Rahul Sharma registered today</p>
+                    </div>
+                    <small>2 min ago</small>
+                </div>
+
+                <div class="activity">
+                    <span class="activity-icon">🛏️</span>
+                    <div>
+                        <strong>Room allocated</strong>
+                        <p>Room 204 allocated to student</p>
+                    </div>
+                    <small>1 hour ago</small>
+                </div>
+
+                <div class="activity">
+                    <span class="activity-icon">📢</span>
+                    <div>
+                        <strong>New complaint received</strong>
+                        <p>Water supply complaint submitted</p>
+                    </div>
+                    <small>3 hours ago</small>
+                </div>
+                </div>
+
+            <!-- Quick Actions -->
+            <div class="section-box">
+
+                <div class="section-header">
+                    <h2>Quick Actions</h2>
+                </div>
+
+                <div class="quick-actions">
+
+                    <a href="students.html" class="action-btn">
+                        ➕ Add Student
+                    </a>
+
+                    <a href="rooms.html" class="action-btn">
+                        🛏️ Allocate Room
+                    </a>
+
+                    <a href="complaints.html" class="action-btn">
+                        📢 View Complaints
+                    </a>
+                    <a href="notices.html" class="action-btn">
+                        🔔 Create Notice
+                    </a>
+             
+
+
+                  
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="dashboard-sections">
+
+    
+    
+
+
+
+   
+           
+
+
+<!-- Hostel Notices & Services -->
+<div class="section-box hostel-notices">
+
+    <div class="section-header">
+        <h2>🔔 Hostel Notices & Services</h2>
+
+        <a href="notices.html" class="view-all">
+            View All
+        </a>
+    </div>
+
+
+    <div class="dashboard-notice-list">
+
+        <!-- Maintenance Notice -->
+        <div class="dashboard-notice">
+
+            <span class="notice-icon maintenance-icon">
+                🛠️
+            </span>
+
+            <div class="notice-content">
+
+                <h3>Electrical Maintenance Work</h3>
+
+                <p>
+                    Electrical maintenance will be carried out tomorrow.
+                </p>
+
+                <small>📅 16 Jul 2026</small>
+
+            </div>
+
+        </div>
+
+
+        <!-- Service Notice -->
+        <div class="dashboard-notice">
+
+            <span class="notice-icon service-icon">
+                🧺
+            </span>
+
+            <div class="notice-content">
+
+                <h3>Laundry Service Available</h3>
+
+                <p>
+                    Laundry service is available from 9 AM to 5 PM.
+                </p>
+
+                <small>📅 16 Jul 2026</small>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hostel Rule Notice -->
+        <div class="dashboard-notice">
+
+            <span class="notice-icon important-icon">
+                ⚠️
+            </span>
+
+            <div class="notice-content">
+
+                <h3>Visitor Timing Reminder</h3>
+
+                <p>
+                    Visitors are not allowed after 8:00 PM.
+                </p>
+
+                <small>📅 15 Jul 2026</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    </div>
+
+
+    <script src="../js/script.js"></script>
+
+</body>
+</html>

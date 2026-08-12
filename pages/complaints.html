@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Complaint Management | HMS</title>
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+body{margin:0;font-family:Arial;background:#f5f7fb;color:#14213d}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:250px;background:#111b30;color:white;padding:25px 15px}
+.logo{text-align:center;margin-bottom:40px}.logo h2{color:#20aee5;font-size:30px;margin:0}.logo p{color:#8b95a7}
+.nav a{display:block;color:#dce3ef;text-decoration:none;padding:15px;border-radius:8px;margin:5px 0}
+.nav a:hover,.nav a.active{background:#243452}
+.main{flex:1;padding:35px}.header{display:flex;justify-content:space-between;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:30px 0}
+.card,.section{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 12px #ddd}
+button{padding:10px 17px;border:0;border-radius:7px;background:#20aee5;color:white;cursor:pointer}
+button.danger{background:#e74c3c}
+select,input,textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:7px;margin:7px 0 15px}
+.modal{display:none;position:fixed;inset:0;background:#0008;align-items:center;justify-content:center}
+.modal-box{background:white;width:500px;padding:30px;border-radius:12px}
+.close{float:right;font-size:25px;cursor:pointer}
+.complaint{border:1px solid #ddd;border-radius:10px;padding:20px;margin:15px 0}
+.pending{color:#d68910}.progress{color:#2980b9}.resolved{color:#16834a}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+<div class="logo">
+<h2>HMS</h2>
+<p>Hostel Management</p>
+</div>
+
+<div class="nav">
+<a href="dashboard.html">📊 Dashboard</a>
+<a href="rooms.html">🛏️ Room Allocation</a>
+<a href="students.html">👨‍🎓 Students</a>
+<a href="fees.html">💰 Fee Payment</a>
+<a href="complaints.html" class="active">📢 Complaints</a>
+<a href="notices.html">🔔 Notices & Services</a>
+</div>
+
+</aside>
+
+<main class="main">
+
+<div class="header">
+<div>
+<h1>Complaint Management</h1>
+<p>Manage and track student complaints</p>
+</div>
+
+<div><b>🔵 Admin</b><br><small>Administrator</small></div>
+</div>
+
+<div class="cards">
+
+<div class="card">
+<h2 id="total">0</h2>
+<p>Total Complaints</p>
+</div>
+
+<div class="card">
+<h2 id="pending">0</h2>
+<p>Pending</p>
+</div>
+
+<div class="card">
+<h2 id="progress">0</h2>
+<p>In Progress</p>
+</div>
+
+<div class="card">
+<h2 id="resolved">0</h2>
+<p>Resolved</p>
+</div>
+
+</div>
+
+<div class="section">
+
+<div style="display:flex;justify-content:space-between;align-items:center">
+
+<h2>Complaint Records</h2>
+
+<button onclick="openModal()">＋ Add Complaint</button>
+
+</div>
+
+<div id="complaints"></div>
+
+</div>
+
+</main>
+</div>
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<span class="close" onclick="closeModal()">×</span>
+
+<h2>Add Complaint</h2>
+
+<label>Student Name</label>
+<input id="studentName" placeholder="Enter student name">
+
+<label>Student ID</label>
+<input id="studentId" placeholder="Enter student ID">
+
+<label>Complaint Title</label>
+<input id="title" placeholder="Enter complaint title">
+
+<label>Category</label>
+
+<select id="category">
+<option>Electrical</option>
+<option>Water Supply</option>
+<option>Furniture</option>
+<option>Cleanliness</option>
+<option>Internet</option>
+<option>Other</option>
+</select>
+
+<label>Description</label>
+
+<textarea id="description" rows="4"
+placeholder="Describe the complaint"></textarea>
+
+<button onclick="addComplaint()" style="width:100%">
+Submit Complaint
+</button>
+
+</div>
+</div>
+
+<script>
+
+let complaints=JSON.parse(localStorage.getItem("hms_complaints")) || [];
+
+function save(){
+localStorage.setItem("hms_complaints",JSON.stringify(complaints));
+}
+
+function render(){
+
+let container=document.getElementById("complaints");
+
+container.innerHTML="";
+
+let pending=0;
+let progress=0;
+let resolved=0;
+
+complaints.forEach((c,index)=>{
+
+if(c.status==="Pending") pending++;
+if(c.status==="In Progress") progress++;
+if(c.status==="Resolved") resolved++;
+
+let div=document.createElement("div");
+
+div.className="complaint";
+
+div.innerHTML=`
+
+<h2>${c.title}</h2>
+
+<p><b>Complaint ID:</b> CMP${String(index+1).padStart(3,"0")}</p>
+
+<p><b>Student:</b> ${c.studentName}</p>
+
+<p><b>Student ID:</b> ${c.studentId}</p>
+
+<p><b>Category:</b> ${c.category}</p>
+
+<p><b>Date:</b> ${c.date}</p>
+
+<p>${c.description}</p>
+
+<p>
+<b>Status:</b>
+
+<select onchange="changeStatus(${index},this.value)" style="width:auto">
+
+<option ${c.status==="Pending"?"selected":""}>Pending</option>
+<option ${c.status==="In Progress"?"selected":""}>In Progress</option>
+<option ${c.status==="Resolved"?"selected":""}>Resolved</option>
+
+</select>
+
+</p>
+
+<button class="danger" onclick="deleteComplaint(${index})">
+Delete
+</button>
+
+`;
+
+container.appendChild(div);
+
+});
+
+document.getElementById("total").innerText=complaints.length;
+document.getElementById("pending").innerText=pending;
+document.getElementById("progress").innerText=progress;
+document.getElementById("resolved").innerText=resolved;
+
+}
+
+function openModal(){
+document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+function addComplaint(){
+
+let studentName=document.getElementById("studentName").value.trim();
+let studentId=document.getElementById("studentId").value.trim();
+let title=document.getElementById("title").value.trim();
+let category=document.getElementById("category").value;
+let description=document.getElementById("description").value.trim();
+
+if(!studentName || !studentId || !title || !description){
+
+alert("Please fill all fields.");
+return;
+
+}
+
+complaints.push({
+
+studentName,
+studentId,
+title,
+category,
+description,
+status:"Pending",
+date:new Date().toLocaleDateString()
+
+});
+
+save();
+render();
+
+closeModal();
+
+document.getElementById("studentName").value="";
+document.getElementById("studentId").value="";
+document.getElementById("title").value="";
+document.getElementById("description").value="";
+
+alert("Complaint added successfully!");
+
+}
+
+function changeStatus(index,status){
+
+complaints[index].status=status;
+
+save();
+render();
+
+}
+
+function deleteComplaint(index){
+
+if(confirm("Delete this complaint?")){
+
+complaints.splice(index,1);
+
+save();
+render();
+
+}
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
